@@ -1,0 +1,12 @@
+{
+  "course": "AIAA3111 Introduction to Data Mining",
+  "title": "Beyond Frequent Co-Purchases",
+  "subtitle": "A Study of Temporal Stability in Retail Association Rules",
+  "group_id": "11",
+  "members": [
+    {"name": "Chi Kit WONG", "student_id": "50012338"},
+    {"name": "Yuxuan OUYANG", "student_id": "50013526"},
+    {"name": "Zhicheng SUN", "student_id": "50012546"}
+  ],
+  "poster_size": "A1 landscape provisional pending course specification"
+}

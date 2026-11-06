@@ -1,0 +1,43 @@
+{
+  "raw_rows": 541909,
+  "raw_columns": [
+    "InvoiceNo",
+    "StockCode",
+    "Description",
+    "Quantity",
+    "InvoiceDate",
+    "UnitPrice",
+    "CustomerID",
+    "Country"
+  ],
+  "missing_by_column": {
+    "InvoiceNo": 0,
+    "StockCode": 0,
+    "Description": 1454,
+    "Quantity": 0,
+    "InvoiceDate": 0,
+    "UnitPrice": 0,
+    "CustomerID": 135080,
+    "Country": 0
+  },
+  "exact_duplicate_rows": 5268,
+  "first_date": "2010-12-01 08:26:00",
+  "last_date": "2011-12-09 12:50:00",
+  "raw_distinct_invoices": 25900,
+  "raw_distinct_stock_codes": 4070,
+  "clean_rows": 522537,
+  "all_country_baskets": 19773,
+  "uk_baskets": 17901,
+  "clean_products": 3798,
+  "clean_rows_missing_customer": 131387,
+  "clean_rows_missing_description": 0,
+  "singleton_baskets": 1500,
+  "same_day_multitime_invoices": 42,
+  "basket_size_quantiles": {
+    "0.0": 1.0,
+    "0.5": 15.0,
+    "0.9": 52.0,
+    "0.99": 218.0,
+    "1.0": 1106.0
+  }
+}

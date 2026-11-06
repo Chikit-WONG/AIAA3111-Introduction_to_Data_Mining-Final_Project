@@ -1,0 +1,3 @@
+seconds,itemsets,signature,baseline_rss_mib,peak_process_rss_mib,algorithm,min_support,repeat,orders,encoded_products,max_length,apriori_low_memory
+2.1582681,129166,e0e3ff00e28ef20d1a4d7b135411342461bc3b471734bb5cda2c784c43e6f3ed,74.21875,157.03125,apriori,0.01,1,2000,1027,3,True
+8.9910948,129166,e0e3ff00e28ef20d1a4d7b135411342461bc3b471734bb5cda2c784c43e6f3ed,74.20703125,156.92578125,fpgrowth,0.01,1,2000,1027,3,False

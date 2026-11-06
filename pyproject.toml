@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retail-rule-stability"
+version = "1.0.0"
+description = "Reproducible temporal evaluation of retail association rules"
+requires-python = ">=3.11"
+dependencies = ["numpy", "pandas", "scipy", "openpyxl", "mlxtend", "matplotlib", "psutil"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+report = ["reportlab", "pypdf"]
+
+[tool.setuptools.packages.find]
+include = ["retail_rules*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

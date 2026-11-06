@@ -1,0 +1,13 @@
+{
+  "selected_configuration": "s0.02_c0.5",
+  "selected_rules": 71,
+  "test_rule_months": 284,
+  "test_retained_rule_months": 225,
+  "mean_monthly_test_retention": 0.7922535211267606,
+  "rules_retained_all_test_months": 46,
+  "rules_retained_no_test_month": 4,
+  "test_evaluation_coverage": 0.9929577464788732,
+  "benchmark_max_peak_rss_mib": 158.65234375,
+  "experiment_wall_seconds": 70.99496400000498,
+  "completed_utc": "2026-11-06T11:45:28.949325+00:00"
+}

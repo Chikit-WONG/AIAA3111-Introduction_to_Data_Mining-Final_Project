@@ -1,0 +1,17 @@
+{
+  "python": "3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "logical_processors": 16,
+  "physical_cores": 8,
+  "memory_gib": 63.219818115234375,
+  "versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.1",
+    "mlxtend": "0.25.0",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.2",
+    "psutil": "7.2.2",
+    "openpyxl": "3.1.5"
+  },
+  "cpu": "AMD Ryzen 9 7940H w/ Radeon 780M Graphics"
+}

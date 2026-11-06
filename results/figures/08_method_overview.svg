@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="676.8pt" height="219.6pt" viewBox="0 0 676.8 219.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-06T20:43:31.433316</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 219.6 
+L 676.8 219.6 
+L 676.8 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 8.784 148.896 
+L 123.696 148.896 
+Q 128.736 148.896 128.736 143.856 
+L 128.736 28.944 
+Q 128.736 23.904 123.696 23.904 
+L 8.784 23.904 
+Q 3.744 23.904 3.744 28.944 
+L 3.744 143.856 
+Q 3.744 148.896 8.784 148.896 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #eff3f6; stroke: #15324f; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 152.784 148.896 
+L 296.496 148.896 
+Q 301.536 148.896 301.536 143.856 
+L 301.536 28.944 
+Q 301.536 23.904 296.496 23.904 
+L 152.784 23.904 
+Q 147.744 23.904 147.744 28.944 
+L 147.744 143.856 
+Q 147.744 148.896 152.784 148.896 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #eaf1f8; stroke: #317cb0; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 325.584 148.896 
+L 469.296 148.896 
+Q 474.336 148.896 474.336 143.856 
+L 474.336 28.944 
+Q 474.336 23.904 469.296 23.904 
+L 325.584 23.904 
+Q 320.544 23.904 320.544 28.944 
+L 320.544 143.856 
+Q 320.544 148.896 325.584 148.896 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #eaf5f2; stroke: #198b83; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 499.824 148.896 
+L 668.016 148.896 
+Q 673.056 148.896 673.056 143.856 
+L 673.056 28.944 
+Q 673.056 23.904 668.016 23.904 
+L 499.824 23.904 
+Q 494.784 23.904 494.784 28.944 
+L 494.784 143.856 
+Q 494.784 148.896 499.824 148.896 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #fcf1e8; stroke: #d97832; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 130.877227 93.6 
+Q 138.240391 93.6 144.038308 93.6 
+" clip-path="url(#pc9ef654811)" style="fill: none; stroke: #15324f; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 139.238308 91.2 
+L 144.038308 93.6 
+L 139.238308 96 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #15324f; stroke: #15324f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 303.677227 93.6 
+Q 311.040391 93.6 316.838308 93.6 
+" clip-path="url(#pc9ef654811)" style="fill: none; stroke: #15324f; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 312.038308 91.2 
+L 316.838308 93.6 
+L 312.038308 96 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #15324f; stroke: #15324f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 476.483203 93.6 
+Q 484.562003 93.6 491.075554 93.6 
+" clip-path="url(#pc9ef654811)" style="fill: none; stroke: #15324f; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 486.275554 91.2 
+L 491.075554 93.6 
+L 486.275554 96 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #15324f; stroke: #15324f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 8.064 211.536 
+L 668.736 211.536 
+Q 673.056 211.536 673.056 207.216 
+L 673.056 171.504 
+Q 673.056 167.184 668.736 167.184 
+L 8.064 167.184 
+Q 3.744 167.184 3.744 171.504 
+L 3.744 207.216 
+Q 3.744 211.536 8.064 211.536 
+z
+" clip-path="url(#pc9ef654811)" style="fill: #f5f7f9; stroke: #cad4dc; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 483.84 154.08 
+L 483.84 20.16 
+" clip-path="url(#pc9ef654811)" style="fill: none; stroke-dasharray: 3.6,3.6; stroke-dashoffset: 0; stroke: #d97832; stroke-width: 1.2"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 12.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="66.24" y="43.541094" transform="rotate(-0 66.24 43.541094)">1  AUDIT</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="66.24" y="62.001773" transform="rotate(-0 66.24 62.001773)">Fixed cleaning</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="66.24" y="82.829812" transform="rotate(-0 66.24 82.829812)">541,909 raw lines</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="66.24" y="99.749812" transform="rotate(-0 66.24 99.749812)">17,901 UK baskets</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="66.24" y="116.669812" transform="rotate(-0 66.24 116.669812)">Invoice = one set</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="66.24" y="133.589812" transform="rotate(-0 66.24 133.589812)">Missing IDs retained</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 12.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #317cb0" x="224.64" y="43.541094" transform="rotate(-0 224.64 43.541094)">2  DISCOVER</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 11.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="224.64" y="62.001328" transform="rotate(-0 224.64 62.001328)">Dec 2010-May 2011</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="224.64" y="82.829812" transform="rotate(-0 224.64 82.829812)">7,365 orders</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="224.64" y="99.749812" transform="rotate(-0 224.64 99.749812)">Apriori / FP-Growth</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="224.64" y="116.669812" transform="rotate(-0 224.64 116.669812)">9 support/conf. settings</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="224.64" y="133.589812" transform="rotate(-0 224.64 133.589812)">At most 3 products</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 12.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #198b83" x="397.44" y="43.541094" transform="rotate(-0 397.44 43.541094)">3  SELECT</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 11.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="397.44" y="62.001773" transform="rotate(-0 397.44 62.001773)">Jun-Jul 2011</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="397.44" y="82.829812" transform="rotate(-0 397.44 82.829812)">2,696 orders</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="397.44" y="99.749812" transform="rotate(-0 397.44 99.749812)">Maximize val. retention</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="397.44" y="116.669812" transform="rotate(-0 397.44 116.669812)">At least 20 rules</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="397.44" y="133.589812" transform="rotate(-0 397.44 133.589812)">Freeze 71 rule IDs</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 12.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #d97832" x="583.92" y="43.541094" transform="rotate(-0 583.92 43.541094)">4  EVALUATE</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 11.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="583.92" y="62.001328" transform="rotate(-0 583.92 62.001328)">Aug-Nov 2011</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="583.92" y="82.829812" transform="rotate(-0 583.92 82.829812)">7,096 orders</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="583.92" y="99.749812" transform="rotate(-0 583.92 99.749812)">Same 71 rules, 4 months</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="583.92" y="116.669812" transform="rotate(-0 583.92 116.669812)">225/284 rule-months retained</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 11.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="583.92" y="133.589812" transform="rotate(-0 583.92 133.589812)">No test-driven reselection</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 10.7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #d97832" x="483.84" y="12.85991" transform="rotate(-0 483.84 12.85991)">Locked handoff</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 11.7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="338.4" y="185.945309" transform="rotate(-0 338.4 185.945309)">COMMON MONTHLY GATE: support &gt;= 0.5% | confidence &gt;= 50% | lift &gt;= 1.2</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #15324f" x="338.4" y="202.323832" transform="rotate(-0 338.4 202.323832)">Require &gt;= 20 antecedent orders and an observed consequent; every frozen rule stays in the denominator.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pc9ef654811">
+   <rect x="0" y="0" width="676.8" height="219.6"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "configuration": "s0.02_c0.5",
+  "min_support": 0.02,
+  "min_confidence": 0.5,
+  "rules": 71,
+  "validation_retention": 0.7816901408450704,
+  "selected_utc": "2026-11-06T11:45:25.346168+00:00",
+  "configuration_sha256": "ff1cb77124324199ec36946a45d4b9c67002df5fb043c0df0f057edb885fb9e3",
+  "rule_ids_sha256": "5c4cced6b11dfb76355f511978b8f9e2aefc5697d8c1e4bfa129e0be47ba4faf",
+  "evaluation_thresholds": {
+    "evaluation_min_support": 0.005,
+    "evaluation_min_confidence": 0.5,
+    "evaluation_min_lift": 1.2,
+    "evaluation_min_antecedent_count": 20
+  },
+  "objective": "maximum mean validation retention under common evaluation thresholds; ties prefer more rules, then higher discovery support, then higher discovery confidence"
+}

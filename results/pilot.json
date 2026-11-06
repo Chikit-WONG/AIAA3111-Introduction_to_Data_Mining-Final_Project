@@ -1,0 +1,7 @@
+{
+  "orders": 2000,
+  "frequent_products": 1027,
+  "rules_at_confidence_0_5": 342083,
+  "max_peak_rss_mib": 157.03125,
+  "note": "First 2000 discovery invoices; feasibility check only, not reported performance comparison"
+}

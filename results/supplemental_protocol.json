@@ -1,0 +1,11 @@
+{
+  "created_utc": "2026-11-06T11:55:16.871185+00:00",
+  "status": "post_hoc_descriptive_diagnostics",
+  "primary_selection_changed": false,
+  "diagnostics": [
+    "Exclude evaluation invoices with more than 100 unique products, keeping the selected rules fixed",
+    "Recompute validation-only selection with minimum rule floors of 10, 20, 50 and 100",
+    "Profile basket size by presence of CustomerID",
+    "Partition failures in order: evaluability, support, confidence, lift"
+  ]
+}

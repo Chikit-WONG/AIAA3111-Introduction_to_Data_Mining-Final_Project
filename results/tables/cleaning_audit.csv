@@ -1,0 +1,8 @@
+step,removed_rows,remaining_rows
+raw,0,541909
+exact_duplicate_lines,5268,536641
+missing_required_basket_fields,0,536641
+cancelled_invoice,9251,527390
+nonpositive_quantity,1336,526054
+nonpositive_price,1176,524878
+non_product_codes,2341,522537

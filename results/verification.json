@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "scope": "Core integrity checks plus a deterministic independent sample, not a full audit of every rule",
+  "integrity_checks": [
+    "Cleaning exclusions reconcile exactly to raw rows",
+    "Source checksum matches locked protocol",
+    "Configuration matches locked protocol",
+    "Selected rule set matches frozen selection hash",
+    "Rule IDs are unique",
+    "All selected rules appear in every test month",
+    "No duplicate rule-month evaluations",
+    "Summary retained count reconciles to rule-level evidence",
+    "Apriori and FP-Growth match at every benchmark support"
+  ],
+  "independently_checked_discovery_rules": 40,
+  "independently_checked_test_rule_months": 160,
+  "sampling_seed": 3111
+}

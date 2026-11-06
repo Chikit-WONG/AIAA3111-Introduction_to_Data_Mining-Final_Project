@@ -1,0 +1,12 @@
+month,first_failed_requirement,rule_months
+2011-08,below_confidence,9
+2011-08,below_support,2
+2011-08,low_antecedent_count,2
+2011-08,retained,58
+2011-09,below_confidence,10
+2011-09,retained,61
+2011-10,below_confidence,15
+2011-10,retained,56
+2011-11,below_confidence,20
+2011-11,below_support,1
+2011-11,retained,50

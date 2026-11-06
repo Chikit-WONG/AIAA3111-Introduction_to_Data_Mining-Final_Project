@@ -1,0 +1,34 @@
+{
+  "status": "post_hoc_descriptive_diagnostics",
+  "selection_changed": false,
+  "definition": "Fixed selected rules and test data; confidence-gate sensitivity keeps support, lift and evidence gates unchanged. No new selection or significance test.",
+  "selected_rules": 71,
+  "unique_union_itemsets": 51,
+  "unique_products": 49,
+  "distinct_consequents": 26,
+  "largest_consequent_group": {
+    "product": "85099B",
+    "rules": 18
+  },
+  "confidence_between_45_and_55_percent_rule_months": 69,
+  "evaluation_confidence_sensitivity": [
+    {
+      "evaluation_min_confidence": 0.45,
+      "retained_rule_months": 254,
+      "all_rule_months": 284,
+      "retention": 0.8943661971830986
+    },
+    {
+      "evaluation_min_confidence": 0.5,
+      "retained_rule_months": 225,
+      "all_rule_months": 284,
+      "retention": 0.7922535211267606
+    },
+    {
+      "evaluation_min_confidence": 0.55,
+      "retained_rule_months": 187,
+      "all_rule_months": 284,
+      "retention": 0.6584507042253521
+    }
+  ]
+}

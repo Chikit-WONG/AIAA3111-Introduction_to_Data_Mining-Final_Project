@@ -1,0 +1,14 @@
+split,month,orders
+discovery,2010-12,1440
+discovery,2011-01,967
+discovery,2011-02,990
+discovery,2011-03,1302
+discovery,2011-04,1148
+discovery,2011-05,1518
+validation,2011-06,1379
+validation,2011-07,1317
+test,2011-08,1195
+test,2011-09,1631
+test,2011-10,1789
+test,2011-11,2481
+partial_supplement,2011-12,744

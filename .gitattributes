@@ -1,0 +1,9 @@
+# Keep source text portable and preserve binary deliverables.
+* text=auto eol=lf
+*.pdf binary
+*.png binary
+
+# These files participate in recorded SHA-256 checks: preserve exact bytes.
+configs/experiment.json -text
+data/source_manifest.json -text
+results/** -text

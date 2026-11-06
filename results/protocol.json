@@ -1,0 +1,62 @@
+{
+  "locked_utc": "2026-11-06T11:44:18.008113+00:00",
+  "configuration_sha256": "ff1cb77124324199ec36946a45d4b9c67002df5fb043c0df0f057edb885fb9e3",
+  "raw_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+  "configuration": {
+    "seed": 3111,
+    "dataset_url": "https://archive.ics.uci.edu/static/public/352/online+retail.zip",
+    "discovery_start": "2010-12-01",
+    "discovery_end_exclusive": "2011-06-01",
+    "validation_months": [
+      "2011-06",
+      "2011-07"
+    ],
+    "test_months": [
+      "2011-08",
+      "2011-09",
+      "2011-10",
+      "2011-11"
+    ],
+    "partial_month": "2011-12",
+    "country": "United Kingdom",
+    "support_grid": [
+      0.005,
+      0.01,
+      0.02
+    ],
+    "confidence_grid": [
+      0.3,
+      0.5,
+      0.7
+    ],
+    "discovery_min_lift": 1.2,
+    "max_itemset_length": 3,
+    "single_item_consequent": true,
+    "evaluation_min_support": 0.005,
+    "evaluation_min_confidence": 0.5,
+    "evaluation_min_lift": 1.2,
+    "evaluation_min_antecedent_count": 20,
+    "selection_min_rules": 20,
+    "selection_objective": "maximum mean validation retention under common evaluation thresholds; ties prefer more rules, then higher discovery support, then higher discovery confidence",
+    "benchmark_repeats": 3,
+    "benchmark_timeout_seconds": 600,
+    "benchmark_memory_limit_gib": 12,
+    "apriori_low_memory": true,
+    "rolling_discovery_months": 3,
+    "non_product_codes": [
+      "POST",
+      "DOT",
+      "M",
+      "D",
+      "C2",
+      "B",
+      "BANK CHARGES",
+      "AMAZONFEE",
+      "CRUK",
+      "S",
+      "PADS"
+    ]
+  },
+  "discovery_orders": 7365,
+  "selection_has_seen_test_metrics": false
+}
