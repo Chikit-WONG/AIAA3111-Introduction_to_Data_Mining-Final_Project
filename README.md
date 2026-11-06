@@ -62,7 +62,8 @@ The detailed experimental definitions and limitations are in [docs/EXPERIMENT_PR
 | `results/protocol.json`, `results/selection.json` | Configuration and pre-test selection records |
 | `results/verification.json` | Scope and result of independent numerical checks |
 | `docs/PRESENTATION_NOTES.md` | Chinese explanation, English pitch and defense questions |
-| `artifacts/Poster.pdf` | Poster; provisional A1 landscape layout |
+| `artifacts/Poster.pdf` | Vector research poster; provisional A1 landscape layout |
+| `artifacts/Poster_preview.png` | Screen preview of the current poster |
 | `scripts/` | Optional document build and submission packaging tools |
 
 ## Collaborative report in Overleaf
@@ -98,5 +99,7 @@ After reviewing the manuscript, rebuild the local deliverables in PowerShell:
 The outputs are `Report.pdf` in the adjacent report repository, `artifacts/Poster.pdf`, and `dist/Group_11_Project.zip` here. After the first successful TeX build, `build_report.ps1 -Offline` uses only cached packages. In an extracted submission ZIP, the manuscript is in `report_source/`; pass `-ReportDirectory .\report_source` to the PowerShell builder and `--report-dir report_source` to the exporter or packager. Both Git repositories are managed separately; edit and synchronize the report repository through the team's normal GitHub/Overleaf workflow.
 
 The final deadline and poster dimensions have not been announced in the supplied materials; the user confirmed the presentation is in week 12. The current poster is **A1 landscape provisionally**, not a claim about the required format.
+
+The redesigned poster uses a three-column narrative, a chronological method diagram, directly labeled monthly outcomes, a 71-rule persistence display, population sensitivity and a threshold grid. Every chart and the repository QR code are vector graphics; DejaVu font subsets are embedded for printing. The editable source is `scripts/build_poster.py`, which reads the archived CSV/JSON evidence without rerunning mining. See [poster design and reproduction notes](docs/POSTER_DESIGN.md) for the content map, preview command and sizing options.
 
 The course prohibits directly submitting AI-generated work and requires AIGC disclosure. Codex generated the initial code, experiments, analysis and draft materials; the report discloses that assistance. Team members must understand, verify and revise the work before submission. Human contributions and peer-assessment scores are not invented. See [docs/TEAM_REVIEW.md](docs/TEAM_REVIEW.md).
