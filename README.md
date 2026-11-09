@@ -17,7 +17,16 @@ python -m venv .venv
 .\.venv\Scripts\python.exe run.py all
 ```
 
-On Linux/macOS use `.venv/bin/python` for the equivalent commands. The source download requires internet access the first time. Subsequent runs verify the existing workbook's SHA-256. Pickle files are **local generated caches**; never replace them with untrusted downloaded pickle files.
+On Linux/macOS, from this repository:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-lock.txt
+.venv/bin/python -m pytest -q
+.venv/bin/python run.py all
+```
+
+The source download requires internet access the first time. Subsequent runs verify the existing workbook's SHA-256. Pickle files are **local generated caches**; never replace them with untrusted downloaded pickle files.
 
 The individual stages are available as `download`, `prepare`, `pilot`, `experiment`, `supplement`, `figures`, and `verify`. `all` rebuilds the analysis from the verified raw workbook, including the supplements, figures and verification. The optional `pilot` uses the first 2,000 discovery invoices solely as a feasibility check and is not the reported benchmark. Run it after `prepare`.
 
