@@ -223,8 +223,10 @@ def render_and_check(pdf_path, out_dir):
     width_mm, height_mm = page.rect.width / 72 * 25.4, page.rect.height / 72 * 25.4
     assert abs(width_mm - 800) < .05 and abs(height_mm - 1000) < .05
     extracted = page.get_text()
-    required = ['AIAA 3111 课程项目海报', 'Group 11', 'Chi Kit WONG', 'Yuxuan OUYANG', 'Zhicheng SUN',
-                '79.2%', '46 / 71', 'Co-purchase examples', 'Discovery confidence', 'Discovery support']
+    required = ['AIAA 3111 | Introduction to Data Mining', 'Group 11', 'Chi Kit WONG', 'Yuxuan OUYANG', 'Zhicheng SUN',
+                '78.2% validation retention', '111/142 rule-months passed', '79.2% test retention',
+                '225/284 rule-months', '46 / 71', '17,901 study orders', '17,157', '744',
+                'Supplementary analysis (Dec 1-9, 2011)', 'Co-purchase examples', 'Discovery confidence', 'Discovery support']
     for value in required:
         assert value in extracted, value
     assert 'Limitations' not in extracted and '54.9%' not in extracted

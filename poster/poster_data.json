@@ -111,6 +111,12 @@
       "selected": false
     }
   ],
+  "discovery_orders": 7365,
+  "partial_december_orders": 744,
+  "validation_months": [
+    {"month": "2011-06", "passed": 55, "orders": 1379},
+    {"month": "2011-07", "passed": 56, "orders": 1317}
+  ],
   "test_months": [
     {
       "month": "2011-08",
@@ -168,5 +174,5 @@
     "objective": "maximum mean validation retention under common evaluation thresholds; ties prefer more rules, then higher discovery support, then higher discovery confidence"
   },
   "display_policy": "Unified monthly support 0.5%; no matched-support supplement.",
-  "population_note": "17,901 UK analysis baskets; 744 partial-December baskets excluded from primary split. Country-specific detail intentionally omitted from the poster body per user preference."
+  "population_note": "The main study uses 17,157 UK orders from December 2010 through November 2011. A separate supplementary check uses 744 orders from December 1-9, 2011. Together these account for all 17,901 study orders."
 }

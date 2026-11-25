@@ -1,5 +1,7 @@
 # Group 11 explanation and defense preparation
 
+For the five-minute team slot, use the [bilingual three-minute script and two-minute Q&A](../poster/Presentation_Script_EN_ZH.md). The notes below provide additional background for rehearsal.
+
 These notes explain the executed project. They do not assign or invent individual contributions. Read the report and inspect the evidence before using them in a presentation.
 
 ## 用中文理解整个项目

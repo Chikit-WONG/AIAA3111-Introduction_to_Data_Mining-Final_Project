@@ -71,12 +71,12 @@ The detailed experimental definitions and limitations are in [docs/EXPERIMENT_PR
 | `results/protocol.json`, `results/selection.json` | Configuration and pre-test selection records |
 | `results/verification.json` | Scope and result of independent numerical checks |
 | `docs/PRESENTATION_NOTES.md` | Chinese explanation, English pitch and defense questions |
-| `artifacts/Poster.pdf` | V03.2 vector print poster, 800 x 1000 mm portrait |
-| `artifacts/Poster_preview.png` | Screen preview of the V03.2 poster |
+| `artifacts/Poster.pdf` | V03.3 English vector print poster, 800 x 1000 mm portrait |
+| `artifacts/Poster_preview.png` | Screen preview of the V03.3 poster |
 | `artifacts/Poster.svg` | Editable vector poster |
-| `artifacts/Poster_source.zip` | Current poster source package and reference speaking notes |
+| `artifacts/Poster_source.zip` | Current poster source package and bilingual talk with Q&A |
 | `poster/` | Current drawing source, rendering engine, data snapshot and build instructions |
-| `poster/海报讲解稿_中文_参考.md` | Latest user-edited Chinese speaking notes, uploaded as a reference |
+| [Bilingual presentation script](poster/Presentation_Script_EN_ZH.md) | Three speakers, three minutes of English, two minutes of Q&A, with Chinese rehearsal text |
 | `scripts/` | Optional document build and submission packaging tools |
 
 ## Collaborative report in Overleaf
@@ -111,8 +111,8 @@ After reviewing the manuscript, rebuild the local deliverables in PowerShell:
 
 The outputs are `Report.pdf` in the adjacent report repository, `artifacts/Poster.pdf`, and `dist/Group_11_Project.zip` here. After the first successful TeX build, `build_report.ps1 -Offline` uses only cached packages. In an extracted submission ZIP, the manuscript is in `report_source/`; pass `-ReportDirectory .\report_source` to the PowerShell builder and `--report-dir report_source` to the exporter or packager. Both Git repositories are managed separately; edit and synchronize the report repository through the team's normal GitHub/Overleaf workflow.
 
-The V03.2 print poster is **800 x 1000 mm portrait**. Print `artifacts/Poster.pdf` at actual size. Rebuild it on Windows with `python -m pip install -r poster/requirements-render.txt` and `python scripts/build_poster.py`. On other systems, point `POSTER_FONT_DIR` to the same font files. The builder reads the saved results and draws each figure as editable vectors.
+The V03.3 print poster is **800 x 1000 mm portrait**. Print `artifacts/Poster.pdf` at actual size. Rebuild it on Windows with `python -m pip install -r poster/requirements-render.txt` and `python scripts/build_poster.py`. On other systems, point `POSTER_FONT_DIR` to the same font files. The builder reads the saved results and draws each figure as editable vectors.
 
-The source package includes only the current poster's compilation files, editable SVG, PDF, preview and the latest user-edited Chinese speaking notes named with **参考**. The current poster has no external image assets. The reference notes are preserved as uploaded; their legacy five-minute heading/timing has not yet been reconciled with the confirmed three-minute presentation limit. See [poster build instructions](poster/README.md) and [current design notes](docs/POSTER_DESIGN.md).
+The source package includes the build files, editable SVG, print PDF, preview and one bilingual speaking file for the five-minute team slot. The earlier Chinese draft remains in the repository as background. See the [poster build instructions](poster/README.md) and [design notes](docs/POSTER_DESIGN.md).
 
 The course prohibits directly submitting AI-generated work and requires AIGC disclosure. Codex generated the initial code, experiments, analysis and draft materials; the report discloses that assistance. Team members must understand, verify and revise the work before submission. Human contributions and peer-assessment scores are not invented. See [docs/TEAM_REVIEW.md](docs/TEAM_REVIEW.md).

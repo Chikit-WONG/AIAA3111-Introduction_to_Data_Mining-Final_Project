@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'poster'
 BUILD = SOURCE / 'build'
 ARTIFACTS = ROOT / 'artifacts'
-VERSION = 'V03.2'
+VERSION = 'V03.3'
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
         shutil.copy2(BUILD / name, ARTIFACTS / target)
 
     source_names = ['build_poster.py', 'scene_engine.py', 'poster_data.json',
-                    'requirements-render.txt', 'README.md', '.gitignore', '海报讲解稿_中文_参考.md']
+                    'requirements-render.txt', 'README.md', '.gitignore', 'Presentation_Script_EN_ZH.md']
     files = [SOURCE / name for name in source_names] + [Path(__file__).resolve()] + [
         ARTIFACTS / name for name in ['Poster.pdf', 'Poster.svg', 'Poster_preview.png']]
     records = [{'path': p.relative_to(ROOT).as_posix(),
@@ -38,6 +38,7 @@ def main():
             z.write(p, p.relative_to(ROOT))
         z.writestr('README.md', f'# Poster source package - {VERSION}\n\n'
                    'Print size: 800 x 1000 mm portrait. See poster/README.md for fonts and dependencies.\n\n'
+                   'The bilingual talk and Q&A are in poster/Presentation_Script_EN_ZH.md.\n\n'
                    'Rebuild from this directory:\n\n'
                    '```powershell\npython -m pip install -r poster/requirements-render.txt\n'
                    'python scripts/build_poster.py\n```\n\n'

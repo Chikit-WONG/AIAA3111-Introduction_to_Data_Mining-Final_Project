@@ -1,12 +1,25 @@
 """Draw the 800 x 1000 mm Group 11 research poster."""
 from pathlib import Path
 import json
-from scene_engine import Scene, measure, render_and_check, UNIT_PT
+from scene_engine import Scene, render_and_check, UNIT_PT
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / 'build'
 (BUILD / 'qa').mkdir(parents=True, exist_ok=True)
 DATA = json.loads((ROOT / 'poster_data.json').read_text(encoding='utf-8'))
+selection = DATA['selection']
+summary = DATA['summary']
+rule_count = selection['rules']
+validation_months = DATA['validation_months']
+validation_passes = sum(month['passed'] for month in validation_months)
+validation_checks = rule_count * len(validation_months)
+test_passes = summary['test_retained_rule_months']
+test_checks = summary['test_rule_months']
+discovery_orders = DATA['discovery_orders']
+validation_orders = sum(month['orders'] for month in validation_months)
+test_orders = sum(month['orders'] for month in DATA['test_months'])
+main_orders = discovery_orders + validation_orders + test_orders
+partial_orders = DATA['partial_december_orders']
 S = Scene()
 BLUE, INK, GRAY, PALE, GRID = '#2463B5', '#202020', '#626B77', '#EEF4FD', '#D9DDE3'
 CW = (3200 - 160 - 96) / 3
@@ -94,7 +107,7 @@ def comparison_chart(y, title, metric, maximum, ticks, decimals):
 
 # Header and headline results.
 tag('header')
-S.text(80, 86, 'AIAA 3111 课程项目海报', 40, 'cjkbold', BLUE)
+txt(80, 86, 'AIAA 3111 | Introduction to Data Mining | Course Project Poster', 40, True, BLUE)
 txt(3120, 86, 'Group 11', 44, True, BLUE, 'end')
 txt(80, 241, 'Beyond Frequent Co-Purchases', 132, True, width=3040)
 txt(83, 326, 'A Study of Temporal Stability in Retail Association Rules', 62, width=3035)
@@ -104,8 +117,10 @@ for x in COL:
     S.rect(x, 465, CW, 208, '#FFFFFF', INK, 2.5)
     S.rect(x, 465, 8, 208, BLUE, 'none', 0)
 for x, label, value, sub, size in [
-    (COL[0], 'MEAN MONTHLY RETENTION', '79.2%', '71 rules | Aug-Nov 2011', 100),
-    (COL[1], 'PASSING EVERY TEST MONTH', '46 / 71', 'Rules passing all four months', 100),
+    (COL[0], 'MEAN MONTHLY TEST RETENTION', f'{test_passes / test_checks:.1%}',
+     f'{test_passes}/{test_checks} rule-months passed | Aug-Nov 2011', 100),
+    (COL[1], 'PASSING EVERY TEST MONTH', f'{summary["rules_retained_all_test_months"]} / {rule_count}',
+     'Rules passing all four months', 100),
     (COL[2], 'APRIORI / FP-GROWTH', 'Same itemsets', 'Different computational costs', 77),
 ]:
     txt(x + 29, 513, label, 34, True, width=CW - 55)
@@ -193,13 +208,18 @@ txt(tx + 523, 3257, 'Transaction 536365', 38, True, width=CW - 580)
 for yy, line in [(3345, '{85123A,'), (3403, ' 71053, 84406B,'), (3461, ' ...}')]:
     txt(tx + 526, yy, line, 38, mono=True, width=CW - 583)
 txt(tx + 178, 3538, '...', 44, True, anchor='middle')
-txt(x + CW / 2, 3624, '17,901 transactions used', 48, True, BLUE, 'middle')
-S.paragraph(tx, 3700, 'Each product appears once per transaction, even if several units were bought.', CW - 32, 38, 49, fill=GRAY)
+txt(tx + 498, 3544, 'Each product appears once.', 34, color=GRAY, width=CW - 530)
+S.line([(tx, 3575), (x + CW - 16, 3575)], GRID, 2)
+txt(tx, 3638, f'{main_orders + partial_orders:,} study orders', 49, True, BLUE, width=CW - 32)
+for yy, orders, label in [(3696, main_orders, 'Main study (discovery, validation, test)'),
+                          (3752, partial_orders, 'Supplementary analysis (Dec 1-9, 2011)')]:
+    txt(tx + 141, yy, f'{orders:,}', 41, True, anchor='end')
+    txt(tx + 170, yy, label, 38, width=CW - 202)
 
 # MIDDLE: connected workflow with larger, shorter labels.
 x, c = COL[1], COL[1] + CW / 2
 tag('discovery')
-phase(855, '1', 'Discover', 'Dec 2010-May 2011 | 7,365 orders')
+phase(855, '1', 'Discover', f'Dec 2010-May 2011 | {discovery_orders:,} orders')
 for xx, name in [(x + 16, 'Apriori'), (x + CW / 2 + 15, 'FP-Growth')]:
     S.rect(xx, 1002, (CW - 62) / 2, 100, '#FFFFFF', INK, 2.5)
     txt(xx + (CW - 62) / 4, 1070, name, 46, True, anchor='middle')
@@ -220,14 +240,18 @@ down(1815, 1843)
 node(1860, 145, '9 candidate groups', '3 support x 3 confidence', 54)
 
 tag('validation')
-phase(2100, '2', 'Validate', 'Jun-Jul 2011 | 2,696 orders')
-node(2200, 103, 'The same 9 groups', title_size=46)
+phase(2100, '2', 'Validate', f'Jun-Jul 2011 | {validation_orders:,} orders')
+node(2200, 103, 'Compare the 9 candidate groups', title_size=46)
 down(2313, 2355)
 S.rect(x + 16, 2365, CW - 32, 145, '#FFFFFF', INK, 2.5)
-txt(c, 2421, 'Evaluate June and July separately', 40, True, anchor='middle', width=CW - 64)
-txt(c, 2476, 'Average their monthly retention', 40, anchor='middle', width=CW - 64)
-txt(x + 16, 2571, 'Best mean; group size >=20 rules', 40, width=CW - 32)
-node(2610, 160, 'Selected: 71 rules', 'Support 2% | Confidence 50%', 54)
+txt(c, 2421, 'Choose the highest mean monthly retention', 40, True, anchor='middle', width=CW - 64)
+txt(c, 2476, 'Only groups with at least 20 rules qualify.', 38, anchor='middle', width=CW - 64)
+S.rect(x + 16, 2545, CW - 32, 233, PALE, BLUE, 3)
+txt(x + 42, 2601, f'Selected group of {rule_count} rules', 46, True, width=CW - 84)
+txt(x + 42, 2650, f'Discovery support {selection["min_support"]:.0%} | confidence {selection["min_confidence"]:.0%}',
+    37, width=CW - 84)
+txt(x + 42, 2713, f'{validation_passes / validation_checks:.1%} validation retention', 48, True, BLUE, width=CW - 84)
+txt(x + 42, 2759, f'{validation_passes}/{validation_checks} rule-months passed in June and July', 36, width=CW - 84)
 
 tag('shared_criteria')
 S.rect(x + 16, 2810, CW - 32, 240, PALE, INK, 2.5)
@@ -237,8 +261,8 @@ txt(x + 42, 2970, 'Lift >=1.2 | Antecedent orders >=20', 38, width=CW - 84)
 txt(x + 42, 3020, 'Consequent must be observed.', 36, color=GRAY)
 
 tag('test')
-phase(3130, '3', 'Test', 'Aug-Nov 2011 | 7,096 orders')
-node(3215, 143, 'Frozen: the same 71 rules', 'Evaluate only - no re-mining', 44)
+phase(3130, '3', 'Test', f'Aug-Nov 2011 | {test_orders:,} orders')
+node(3215, 143, f'{rule_count} rules frozen after validation', 'Check each rule again in each test month.', 44)
 bw = (CW - 74) / 4
 month_centers = [x + 16 + i * (bw + 14) + bw / 2 for i in range(4)]
 S.line([(c, 3366), (c, 3384)], BLUE, 4)
@@ -251,12 +275,10 @@ for i, month in enumerate(['Aug', 'Sep', 'Oct', 'Nov']):
     S.rect(xx, 3417, bw, 12, PALE, 'none', 0)
     S.rect(xx, 3417, bw, 91, 'none', INK, 2.5)
     txt(xx + bw / 2, 3481, month, 42, True, anchor='middle')
-txt(c, 3571, 'Monthly retention = passed / 71', 42, True, anchor='middle', width=CW - 32)
-txt(c, 3628, 'Recheck every rule in every month.', 38, anchor='middle')
-for xx, label, color in [(x + 16, 'Pass', BLUE), (x + 246, 'Metric fail', '#939BA5'), (x + 555, 'Insufficient evidence', '#FFFFFF')]:
-    S.rect(xx, 3660, 22, 22, color, INK, 1.5)
-    txt(xx + 32, 3685, label, 34)
-txt(x + 16, 3740, 'All 71 stay in each month\'s denominator.', 36, color=GRAY, width=CW - 32)
+txt(c, 3571, f'Monthly retention = rules passing / {rule_count}', 42, True, anchor='middle', width=CW - 32)
+txt(x + 16, 3654, 'One rule-month is one rule checked in one month.', 38, width=CW - 32)
+S.paragraph(x + 16, 3710, 'Rules with too little evidence stay in the denominator.',
+            CW - 32, 36, 46, fill=GRAY)
 
 # RIGHT: native benchmark charts, retention grid and monthly results.
 x = COL[2]
@@ -273,7 +295,7 @@ txt(x + 16, 2018, 'lower peak memory at all settings.', 40, width=CW - 32)
 txt(x + 16, 2071, '3-run medians; mining only; low-memory Apriori.', 34, color=GRAY, width=CW - 32)
 
 tag('test_grid')
-section(x, 2182, '04', 'Rule retention')
+section(x, 2182, '04', 'Test retention by rule group')
 gx, gy = x + 180, 2380
 gw, gh = (x + CW - 16 - gx) / 3, 235
 txt(gx + 1.5 * gw, 2258, 'Discovery support', 40, True, anchor='middle')
@@ -294,14 +316,17 @@ for i, confidence in enumerate([.3, .5, .7]):
         if selected:
             txt(xx + gw / 2, yy + 205, 'Selected', 36, True, '#FFFFFF', 'middle')
         if excluded:
-            txt(xx + gw / 2, yy + 205, '<20-rule min.', 34, color=GRAY, anchor='middle', width=gw - 12)
-txt(x + 16, 3149, 'Cells: mean test retention, Aug-Nov 2011.', 36, width=CW - 32)
-txt(x + 16, 3201, 'Counts: original groups; blue: selected.', 36, width=CW - 32)
-txt(x + 16, 3265, 'Selected rules show short-term persistence.', 40, True, width=CW - 32)
-txt(x + 16, 3319, 'Keep monitoring: not every rule lasts.', 40, True, BLUE, width=CW - 32)
+            txt(xx + gw / 2, yy + 205, 'Ineligible (<20)', 34, color=GRAY, anchor='middle', width=gw - 12)
+txt(x + 16, 3149, 'Each cell gives mean monthly test retention.', 36, width=CW - 32)
+txt(x + 16, 3201, 'Blue marks the group chosen in June-July.', 36, width=CW - 32)
+txt(x + 16, 3265, f'{test_passes / test_checks:.1%} test retention ({test_passes}/{test_checks} rule-months)',
+    42, True, BLUE, width=CW - 32)
+txt(x + 16, 3316, f'{summary["rules_retained_all_test_months"]} of {rule_count} rules passed in all four test months.',
+    39, True, width=CW - 32)
+txt(x + 16, 3361, 'Recheck a rule before using it in a later month.', 36, color=GRAY, width=CW - 32)
 
 tag('monthly_results')
-txt(x + 16, 3407, 'Frozen cohort: monthly retention', 42, True, width=CW - 32)
+txt(x + 16, 3426, 'Monthly retention of the frozen rules', 42, True, width=CW - 32)
 pl, pr, pt, pb = x + 89, x + CW - 16, 3465, 3640
 for value in [0, .5, 1]:
     yy = pb - value * (pb - pt)
@@ -313,7 +338,7 @@ for i, row in enumerate(DATA['test_months']):
     S.rect(cc - 56, pb - bh, 112, bh, BLUE, 'none', 0)
     txt(cc, pb - bh - 14, f'{row["retention"]*100:.1f}%', 38, True, BLUE, 'middle')
     txt(cc, 3690, ['Aug', 'Sep', 'Oct', 'Nov'][i], 40, True, anchor='middle')
-    txt(cc, 3740, f'{row["passed"]}/71', 36, color=GRAY, anchor='middle')
+    txt(cc, 3740, f'{row["passed"]}/{rule_count}', 36, color=GRAY, anchor='middle')
 S.line([(pl, pb), (pr, pb)], INK, 2.5)
 
 tag('footer')

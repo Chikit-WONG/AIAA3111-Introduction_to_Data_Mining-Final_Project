@@ -1,13 +1,13 @@
-# Current poster design and reproduction – V03.2
+# Current poster design and reproduction – V03.3
 
-The print poster is **800 x 1000 mm, portrait**. V03.2 builds on the team's three-column design. Python draws the charts, diagrams, tables and text as vectors.
+The English print poster is **800 x 1000 mm, portrait**. V03.3 builds on the team's three-column design. Python draws the charts, diagrams, tables and text as vectors.
 
 ## Reading order
 
-1. Header: title, course identifier, Group 11, members and three main results: 79.2% mean monthly retention, 46/71 passing all four test months, identical itemsets for Apriori and FP-Growth.
-2. Left: research question, historical/future-order illustration, raw records, dataset information, preprocessing and invoice-level transaction aggregation.
-3. Middle: discovery -> validation -> frozen-rule monthly testing; shared monthly criteria are stated once. The selected 71 rules remain in every month's denominator.
-4. Right: mining time and peak process memory, the full test-retention grid, integrated interpretation and selected-cohort monthly outcomes.
+1. The header identifies the course and reports mean monthly test retention (225/284), rules passing all four months (46/71) and agreement between the two mining algorithms.
+2. The left column traces a co-purchase from a raw invoice to a basket, then accounts for the 17,157 main-study orders and 744 supplementary orders.
+3. The middle column reports validation retention (111/142) beside the selected group and shows where the 71 rules were frozen. A rule-month is one rule checked in one month.
+4. The right column shows benchmark costs, the nine groups' test retention and monthly outcomes. The selected group's aggregate test result sits directly below the grid.
 5. Footer: data/method sources, AIGC disclosure and code link. There is no separate conclusion/limitations panel.
 
 ## Rebuild
@@ -17,7 +17,7 @@ python -m pip install -r poster/requirements-render.txt
 python scripts/build_poster.py
 ```
 
-See [poster/README.md](../poster/README.md) for font requirements and the reference speaking notes. This command creates `artifacts/Poster.pdf`, `Poster.svg`, `Poster_preview.png` and `Poster_source.zip`, using saved poster values without re-running mining or calling AI services. The archive contains only this version's source, dependencies, output files and reference notes. Local QA crops and abandoned designs are excluded.
+See [poster/README.md](../poster/README.md) for font requirements and the bilingual speaking file. This command creates `artifacts/Poster.pdf`, `Poster.svg`, `Poster_preview.png` and `Poster_source.zip` from the saved results. The archive includes the build files, the three poster formats and the current talk with Q&A.
 
 ## Visual system and checks
 
@@ -29,6 +29,6 @@ See [poster/README.md](../poster/README.md) for font requirements and the refere
 
 ## Saved evidence
 
-`poster/poster_data.json` is the compact snapshot used for drawing: benchmark medians, nine candidate-group sizes/test retention and four monthly selected-cohort outcomes. Original experimental evidence remains under `results/` and the full protocol under [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md). The 14-rule group is below the 20-rule selection floor despite its observed 100% test retention.
+`poster/poster_data.json` stores benchmark medians, candidate-group sizes and retention, the two validation months, the four test months and the order counts. The underlying monthly counts are in [monthly_retention.csv](../results/tables/monthly_retention.csv) and [splits.csv](../results/tables/splits.csv). The 14-rule group falls below the 20-rule selection floor. See the [experiment protocol](EXPERIMENT_PROTOCOL.md).
 
-The uploaded [Chinese reference notes](../poster/海报讲解稿_中文_参考.md) preserve the latest user-edited draft; their legacy heading/timing has not yet been retimed for the confirmed three-minute presentation.
+The [bilingual script](../poster/Presentation_Script_EN_ZH.md) gives each speaker a pointing cue and a timed English passage, with Chinese alongside. The two-minute Q&A starts after the three-minute talk.
