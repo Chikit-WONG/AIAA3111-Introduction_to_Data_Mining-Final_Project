@@ -1,6 +1,6 @@
-# Current poster design and reproduction – V03.3
+# Current poster design and reproduction – V04.0
 
-The English print poster is **800 x 1000 mm, portrait**. V03.3 builds on the team's three-column design. Python draws the charts, diagrams, tables and text as vectors.
+The English print poster is **800 x 1000 mm, portrait**. V04.0 keeps the content, numbers and three-column reading order of V03.3 and restyles the page after the course poster templates. Python draws the charts, diagrams, tables and text as vectors.
 
 ## Reading order
 
@@ -21,11 +21,13 @@ See [poster/README.md](../poster/README.md) for font requirements and the biling
 
 ## Visual system and checks
 
-- White background, black structural lines and blue emphasis; three columns and large readable type.
+- Navy header and footer bands with the HKUST(GZ) mark; three white column cards with navy title bars; large readable type.
+- Colour roles: navy for structure and headings, blue for data and emphasis, gold only for the selected 71-rule group (and header trim). In the benchmark charts Apriori is blue and FP-Growth is teal; the pair was checked for colour-vision separation and contrast.
+- Headline cards carry ring gauges for 225/284 and 46/71. A split bar under the left column shows how the 17,901 orders divide into discovery, validation, test and the December 1-9 supplement.
 - Main body about 27-31 pt; auxiliary labels at least 24 pt; key grid values about 42.5 pt. Source footer is about 20 pt. SVG text and geometry stay editable; PDF embeds the installed font subsets.
 - Four receipts illustrate co-purchases, each showing both A and B. The caption defines confidence as the fraction of orders containing A that also contain B.
-- In the retention grid, the vertical discovery-confidence title runs beside the 30%, 50% and 70% row labels. Discovery support sits above the columns. Each cell reports mean test retention and the original rule count.
-- The builder checks page size, embedded fonts, the absence of raster images, required text, text widths, page boundaries and overlaps. PDF previews and detail crops are in `poster/build/qa/`.
+- In the retention grid, the vertical discovery-confidence title runs beside the 30%, 50% and 70% row labels. Discovery support sits above the columns. Each cell reports mean test retention and the original rule count. Cells darken with retention; the selected group has a gold outline and the ineligible 14-rule group is grey with a dashed edge.
+- The builder checks page size, embedded fonts, required text, missing glyphs, text widths, page boundaries and overlaps. The logo must be the only raster image and print at 300 dpi or more. PDF previews and detail crops are in `poster/build/qa/`.
 
 ## Saved evidence
 

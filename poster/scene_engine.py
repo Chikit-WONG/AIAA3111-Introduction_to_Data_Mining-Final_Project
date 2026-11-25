@@ -2,7 +2,6 @@
 from pathlib import Path
 from html import escape
 import base64
-import json
 import math
 import os
 from PIL import Image
@@ -28,10 +27,17 @@ for name, filename, _, _ in FONTS.values():
     if not font_path.is_file():
         raise FileNotFoundError(f'Missing font: {font_path}. See poster/README.md and POSTER_FONT_DIR.')
     pdfmetrics.registerFont(TTFont(name, str(font_path), subfontIndex=0))
+CAPS = {'butt': 0, 'round': 1, 'square': 2}
 
 
 def measure(value, size, style='regular'):
     return pdfmetrics.stringWidth(value, FONTS[style][0], size)
+
+
+def missing_glyphs(value, style='regular'):
+    """Characters the chosen font cannot draw (they would print as empty boxes)."""
+    glyphs = pdfmetrics.getFont(FONTS[style][0]).face.charToGlyph
+    return sorted({ch for ch in value if ord(ch) not in glyphs})
 
 
 class Scene:
@@ -45,11 +51,13 @@ class Scene:
         item['tag'] = self.tag
         self.elements.append(item)
 
-    def rect(self, x, y, w, h, fill='none', stroke='#202020', sw=2):
-        self.add(kind='rect', x=x, y=y, w=w, h=h, fill=fill, stroke=stroke, sw=sw)
+    def rect(self, x, y, w, h, fill='none', stroke='#202020', sw=2, r=0, dash=None):
+        """Rectangle; r rounds all four corners, dash is an optional (on, off) pattern."""
+        self.add(kind='rect', x=x, y=y, w=w, h=h, fill=fill, stroke=stroke, sw=sw,
+                 r=max(0, min(r, w / 2, h / 2)), dash=dash)
 
-    def line(self, points, stroke='#202020', sw=2):
-        self.add(kind='line', points=points, stroke=stroke, sw=sw)
+    def line(self, points, stroke='#202020', sw=2, cap='butt', dash=None):
+        self.add(kind='line', points=points, stroke=stroke, sw=sw, cap=cap, dash=dash)
 
     def polygon(self, points, fill='#2463B5'):
         self.add(kind='polygon', points=points, fill=fill)
@@ -61,6 +69,9 @@ class Scene:
         width = measure(value, size, style)
         if max_width is not None and width > max_width + 0.5:
             self.warnings.append(dict(type='text_too_wide', tag=self.tag, value=value, width=round(width, 1), available=max_width))
+        missing = missing_glyphs(value, style)
+        if missing:
+            self.warnings.append(dict(type='missing_glyph', tag=self.tag, value=value, characters=missing, style=style))
         xx = x - (width if anchor == 'end' else width / 2 if anchor == 'middle' else 0)
         bbox = [xx, y - size * 0.83, xx + width, y + size * 0.2]
         if vertical:
@@ -90,48 +101,33 @@ class Scene:
         self.add(kind='image', x=x, y=y, w=w, h=h, path=str(path))
 
     def arrow(self, x1, y1, x2, y2, fill='#2463B5', sw=5, head=16):
-        self.line([(x1, y1), (x2, y2)], fill, sw)
         a = math.atan2(y2 - y1, x2 - x1)
+        # Stop the shaft inside the head so the tip stays sharp at any stroke width.
+        self.line([(x1, y1), (x2 - head * .6 * math.cos(a), y2 - head * .6 * math.sin(a))], fill, sw)
         pts = [(x2, y2)] + [(x2 - head * math.cos(a) + side * head * .48 * math.sin(a),
                             y2 - head * math.sin(a) - side * head * .48 * math.cos(a)) for side in [-1, 1]]
         self.polygon(pts, fill)
-
-    def import_scene(self, items, x, y, scale, asset_root):
-        for source in items:
-            item = dict(source)
-            k = item['kind']
-            if k == 'text':
-                self.text(x + item['x'] * scale, y + item['y'] * scale, item['value'], item['size'] * scale,
-                          item.get('style', 'regular'), item.get('fill', '#202020'), item.get('anchor', 'start'),
-                          vertical=item.get('vertical', False))
-            elif k == 'rect':
-                self.rect(x + item['x'] * scale, y + item['y'] * scale, item['w'] * scale, item['h'] * scale,
-                          item.get('fill', 'none'), item.get('stroke', '#202020'), item.get('sw', 2) * scale)
-            elif k == 'image':
-                self.image(x + item['x'] * scale, y + item['y'] * scale, item['w'] * scale, item['h'] * scale, asset_root / item['path'])
-            elif k == 'line':
-                self.line([(x + a * scale, y + b * scale) for a, b in item['points']], item.get('color', item.get('stroke', '#202020')), item.get('width', item.get('sw', 2)) * scale)
-            elif k == 'polygon':
-                self.polygon([(x + a * scale, y + b * scale) for a, b in item['points']], item.get('fill', '#2463B5'))
 
     def export_svg(self, path):
         parts = [f'<rect width="{self.width}" height="{self.height}" fill="white"/>']
         for e in self.elements:
             k = e['kind']
+            dash = f' stroke-dasharray="{e["dash"][0]} {e["dash"][1]}"' if e.get('dash') else ''
             if k == 'rect':
-                parts.append(f'<rect x="{e["x"]}" y="{e["y"]}" width="{e["w"]}" height="{e["h"]}" fill="{e["fill"]}" stroke="{e["stroke"]}" stroke-width="{e["sw"]}"/>')
+                radius = f' rx="{e["r"]}" ry="{e["r"]}"' if e['r'] else ''
+                parts.append(f'<rect x="{e["x"]}" y="{e["y"]}" width="{e["w"]}" height="{e["h"]}"{radius} fill="{e["fill"]}" stroke="{e["stroke"]}" stroke-width="{e["sw"]}"{dash}/>')
             elif k == 'circle':
                 parts.append(f'<circle cx="{e["x"]}" cy="{e["y"]}" r="{e["r"]}" fill="{e["fill"]}" stroke="{e["stroke"]}" stroke-width="{e["sw"]}"/>')
             elif k in ('line', 'polygon'):
-                pts = ' '.join(f'{x},{y}' for x, y in e['points'])
+                pts = ' '.join(f'{round(x, 2)},{round(y, 2)}' for x, y in e['points'])
                 if k == 'line':
-                    parts.append(f'<polyline points="{pts}" fill="none" stroke="{e["stroke"]}" stroke-width="{e["sw"]}"/>')
+                    parts.append(f'<polyline points="{pts}" fill="none" stroke="{e["stroke"]}" stroke-width="{e["sw"]}" stroke-linecap="{e["cap"]}" stroke-linejoin="round"{dash}/>')
                 else:
                     parts.append(f'<polygon points="{pts}" fill="{e["fill"]}"/>')
             elif k == 'text':
                 _, _, family, weight = FONTS[e['style']]
                 rotation = f' transform="rotate(-90 {e["x"]} {e["y"]})"' if e['vertical'] else ''
-                parts.append(f'<text x="{e["x"]}" y="{e["y"]}"{rotation} font-family="{family}" font-size="{e["size"]}" font-weight="{weight}" fill="{e["fill"]}" text-anchor="{e["anchor"]}">{escape(e["value"])}</text>')
+                parts.append(f'<text x="{e["x"]}" y="{e["y"]}"{rotation} xml:space="preserve" font-family="{family}" font-size="{e["size"]}" font-weight="{weight}" fill="{e["fill"]}" text-anchor="{e["anchor"]}">{escape(e["value"])}</text>')
             else:
                 raw = base64.b64encode(Path(e['path']).read_bytes()).decode('ascii')
                 parts.append(f'<image x="{e["x"]}" y="{e["y"]}" width="{e["w"]}" height="{e["h"]}" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,{raw}"/>')
@@ -144,8 +140,11 @@ class Scene:
         pdf.setTitle('Beyond Frequent Co-Purchases | AIAA 3111 Group 11')
         pdf.setAuthor('Chi Kit WONG; Yuxuan OUYANG; Zhicheng SUN')
         pdf.setSubject('800 x 1000 mm portrait research poster with editable vector figures')
+        pdf.setLineJoin(1)
         for e in self.elements:
             k = e['kind']
+            if e.get('dash'):
+                pdf.setDash([v * UNIT_PT for v in e['dash']])
             if k in ('rect', 'circle'):
                 fill = e['fill'] != 'none'
                 stroke = e['stroke'] != 'none'
@@ -154,7 +153,10 @@ class Scene:
                 if stroke:
                     pdf.setStrokeColor(toColor(e['stroke']))
                     pdf.setLineWidth(e['sw'] * UNIT_PT)
-                if k == 'rect':
+                if k == 'rect' and e['r']:
+                    pdf.roundRect(e['x'] * UNIT_PT, (self.height - e['y'] - e['h']) * UNIT_PT, e['w'] * UNIT_PT,
+                                  e['h'] * UNIT_PT, e['r'] * UNIT_PT, fill=int(fill), stroke=int(stroke))
+                elif k == 'rect':
                     pdf.rect(e['x'] * UNIT_PT, (self.height - e['y'] - e['h']) * UNIT_PT, e['w'] * UNIT_PT, e['h'] * UNIT_PT, fill=int(fill), stroke=int(stroke))
                 else:
                     pdf.circle(e['x'] * UNIT_PT, (self.height - e['y']) * UNIT_PT, e['r'] * UNIT_PT, fill=int(fill), stroke=int(stroke))
@@ -167,7 +169,9 @@ class Scene:
                 if k == 'line':
                     pdf.setStrokeColor(toColor(e['stroke']))
                     pdf.setLineWidth(e['sw'] * UNIT_PT)
+                    pdf.setLineCap(CAPS[e['cap']])
                     pdf.drawPath(p, stroke=1, fill=0)
+                    pdf.setLineCap(0)
                 else:
                     p.close()
                     pdf.setFillColor(toColor(e['fill']))
@@ -195,6 +199,8 @@ class Scene:
                     iw, ih = im.width * scale, im.height * scale
                 xx, yy = e['x'] + (e['w'] - iw) / 2, e['y'] + (e['h'] - ih) / 2
                 pdf.drawImage(ImageReader(e['path']), xx * UNIT_PT, (self.height - yy - ih) * UNIT_PT, iw * UNIT_PT, ih * UNIT_PT, mask='auto')
+            if e.get('dash'):
+                pdf.setDash()
         pdf.showPage()
         pdf.save()
 
@@ -216,35 +222,32 @@ class Scene:
                     width_warnings=self.warnings, text_outside_page=outside, text_overlaps=overlaps)
 
 
-def render_and_check(pdf_path, out_dir):
+def render_and_check(pdf_path, out_dir, required, forbidden=(), logo_images=0, crops=None):
+    """Check the print PDF (size, text, fonts, raster policy) and write previews and detail crops."""
     doc = pymupdf.open(pdf_path)
     assert len(doc) == 1
     page = doc[0]
     width_mm, height_mm = page.rect.width / 72 * 25.4, page.rect.height / 72 * 25.4
     assert abs(width_mm - 800) < .05 and abs(height_mm - 1000) < .05
     extracted = page.get_text()
-    required = ['AIAA 3111 | Introduction to Data Mining', 'Group 11', 'Chi Kit WONG', 'Yuxuan OUYANG', 'Zhicheng SUN',
-                '78.2% validation retention', '111/142 rule-months passed', '79.2% test retention',
-                '225/284 rule-months', '46 / 71', '17,901 study orders', '17,157', '744',
-                'Supplementary analysis (Dec 1-9, 2011)', 'Co-purchase examples', 'Discovery confidence', 'Discovery support']
     for value in required:
         assert value in extracted, value
-    assert 'Limitations' not in extracted and '54.9%' not in extracted
-    assert not page.get_image_info(), 'Expected a fully vector print PDF'
+    for value in forbidden:
+        assert value not in extracted, value
+    # Every figure is vector. The university logo is the only raster allowed, and it must print sharply.
+    images = page.get_image_info()
+    assert len(images) == logo_images, f'Expected {logo_images} raster image(s), found {len(images)}'
+    logo_dpi = [round(image['width'] / ((image['bbox'][2] - image['bbox'][0]) / 72)) for image in images]
+    assert all(dpi >= 300 for dpi in logo_dpi), f'Logo resolution too low for print: {logo_dpi} dpi'
     fonts = page.get_fonts()
     assert fonts and all(doc.extract_font(font[0])[3] for font in fonts), 'Print fonts must be embedded'
     for width, name in [(1600, 'poster_preview.png'), (3200, 'poster_detail.png')]:
         zoom = width / page.rect.width
         page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), alpha=False).save(out_dir / name)
     detail = Image.open(out_dir / 'poster_detail.png')
-    for label, box in {
-        'header': (0, 0, 3200, 720),
-        'left': (60, 740, 1080, 3780),
-        'middle': (1090, 740, 2110, 3780),
-        'right': (2120, 740, 3140, 3780),
-        'course_label': (65, 20, 1400, 115),
-    }.items():
+    for label, box in (crops or {}).items():
         detail.crop(box).save(out_dir / 'qa' / (label + '.png'))
     (out_dir / 'qa/pdf_text.txt').write_text(extracted, encoding='utf-8')
     return dict(page_count=1, physical_mm=[round(width_mm, 3), round(height_mm, 3)],
-                required_text_present=True, raster_images=0, embedded_fonts=len(fonts))
+                required_text_present=True, raster_images=len(images), logo_dpi=logo_dpi,
+                embedded_fonts=len(fonts))

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'poster'
 BUILD = SOURCE / 'build'
 ARTIFACTS = ROOT / 'artifacts'
-VERSION = 'V03.3'
+VERSION = 'V04.0'
 
 
 def main():
@@ -26,7 +26,7 @@ def main():
                          ('poster_preview.png', 'Poster_preview.png')]:
         shutil.copy2(BUILD / name, ARTIFACTS / target)
 
-    source_names = ['build_poster.py', 'scene_engine.py', 'poster_data.json',
+    source_names = ['build_poster.py', 'scene_engine.py', 'poster_data.json', 'assets/hkustgz_logo.png',
                     'requirements-render.txt', 'README.md', '.gitignore', 'Presentation_Script_EN_ZH.md']
     files = [SOURCE / name for name in source_names] + [Path(__file__).resolve()] + [
         ARTIFACTS / name for name in ['Poster.pdf', 'Poster.svg', 'Poster_preview.png']]
@@ -42,9 +42,11 @@ def main():
                    'Rebuild from this directory:\n\n'
                    '```powershell\npython -m pip install -r poster/requirements-render.txt\n'
                    'python scripts/build_poster.py\n```\n\n'
-                   'Only the current version is included. No external image assets or paid API calls are needed.\n')
+                   'Only the current version is included. Every figure is drawn from code. The one image asset is '
+                   'the HKUST(GZ) mark in poster/assets, taken from the course poster template. '
+                   'No paid API calls are needed.\n')
         z.writestr('source_manifest.json', json.dumps({'version': VERSION, 'files': records,
-                     'external_image_assets': []}, ensure_ascii=False, indent=2))
+                     'external_image_assets': ['poster/assets/hkustgz_logo.png']}, ensure_ascii=False, indent=2))
     with zipfile.ZipFile(archive) as z:
         assert z.testzip() is None
     print(json.dumps({'archive': str(archive), 'archive_bytes': archive.stat().st_size,

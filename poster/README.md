@@ -1,6 +1,6 @@
-# Current poster source – V03.3
+# Current poster source – V04.0
 
-The selected poster is **800 x 1000 mm, portrait**. All diagrams, charts, tables and text are drawn from code. There are **no external image assets** to download or preserve. The PDF embeds fonts; the SVG retains editable text and vector geometry.
+The selected poster is **800 x 1000 mm, portrait**. All diagrams, charts, tables and text are drawn from code. The only image asset is the HKUST(GZ) mark in `poster/assets/hkustgz_logo.png`, taken from the course poster template (80 x 100 cm) and stored in this repository. The PDF embeds fonts; the SVG retains editable text and vector geometry.
 
 ## Rebuild
 
@@ -11,7 +11,7 @@ python -m pip install -r poster/requirements-render.txt
 python scripts/build_poster.py
 ```
 
-The V03.3 print build was checked on Windows with Python 3.11.7. Install the separate rendering requirements even if the experiment dependencies are already installed.
+The V04.0 print build was checked on Windows with Python 3.11.7. Install the separate rendering requirements even if the experiment dependencies are already installed.
 
 The fonts are Arial Regular/Bold, Consolas, and Microsoft YaHei Regular/Bold: `arial.ttf`, `arialbd.ttf`, `consola.ttf`, `msyh.ttc`, `msyhbd.ttc`. By default they are read from `C:\Windows\Fonts`. Fonts are not distributed in this repository. On another system, provide the same files in a local directory and set `POSTER_FONT_DIR` to that directory before building. This preserves the intended text metrics.
 
@@ -34,10 +34,11 @@ Intermediate render checks, detail crops and scene JSON go into ignored `poster/
 - `build_poster.py`: current layout and all drawing geometry.
 - `scene_engine.py`: common SVG/PDF rendering and physical-size/text checks.
 - `poster_data.json`: saved experimental values used in the poster.
+- `assets/hkustgz_logo.png`: university mark shown in the header.
 - `requirements-render.txt`: rendering dependencies.
 - [Presentation script and Q&A](Presentation_Script_EN_ZH.md) pairs the three-minute English talk with Chinese rehearsal text. A two-minute Q&A follows. This is the speaking file included in the source archive.
 
-The four past-order receipts illustrate baskets containing both A and B. The caption defines confidence over all orders containing A. In the nine-cell test grid, the vertical discovery-confidence label sits beside the three row percentages, and discovery support labels the columns. For printing, use `artifacts/Poster.pdf` at 100% scale. The build verifies the page dimensions, embedded fonts and absence of raster images.
+The four past-order receipts illustrate baskets containing both A and B. The caption defines confidence over all orders containing A. In the nine-cell test grid, the vertical discovery-confidence label sits beside the three row percentages, and discovery support labels the columns. Cells darken with test retention, a gold outline marks the selected group, and the 14-rule group below the selection floor is grey with a dashed edge. For printing, use `artifacts/Poster.pdf` at 100% scale. The header and footer bands run to the page edge, so ask the print shop for borderless output or accept a thin white margin. The build verifies the page dimensions, embedded fonts and that the logo is the only raster image, at 300 dpi or more.
 
 ## Result definitions
 
