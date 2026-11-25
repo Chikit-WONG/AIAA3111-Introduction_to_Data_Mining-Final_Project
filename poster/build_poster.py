@@ -1,4 +1,4 @@
-"""V03.1: user-confirmed local corrections to calendar, grid and connectors."""
+"""Draw the 800 x 1000 mm Group 11 research poster."""
 from pathlib import Path
 import json
 from scene_engine import Scene, measure, render_and_check, UNIT_PT
@@ -46,7 +46,7 @@ def node(y, h, title, sub=None, title_size=48):
         txt(x + 26, y + h - 27, sub, 38, width=CW - 84)
 
 
-def paper(x, y, w, h, future=False, month=None, both=True):
+def paper(x, y, w, h, future=False, month=None):
     # Receipt and calendar silhouettes share the same stroke and text scale.
     S.rect(x, y, w, h, '#FFFFFF', 'none', 0)
     if future:
@@ -63,11 +63,10 @@ def paper(x, y, w, h, future=False, month=None, both=True):
     product_y = y + (82 if future else 69)
     S.rect(x + 15, product_y, 57, 57, BLUE, 'none', 0)
     txt(x + 43.5, product_y + 43, 'A', 43, True, '#FFFFFF', 'middle')
-    if both:
-        S.rect(x + 88, product_y, 57, 57, '#FFFFFF', INK, 2.5)
-        txt(x + 116.5, product_y + 43, 'B', 43, True, anchor='middle')
-        if future:
-            txt(x + 169, product_y + 43, '?', 40, True, BLUE, 'middle')
+    S.rect(x + 88, product_y, 57, 57, '#FFFFFF', INK, 2.5)
+    txt(x + 116.5, product_y + 43, 'B', 43, True, anchor='middle')
+    if future:
+        txt(x + 169, product_y + 43, '?', 40, True, BLUE, 'middle')
 
 
 def comparison_chart(y, title, metric, maximum, ticks, decimals):
@@ -128,13 +127,14 @@ S.paragraph(x + 16, 931, 'Do past co-purchase patterns remain reliable in later 
 txt(x + 205, 1085, 'Past orders', 42, True, anchor='middle')
 txt(x + 755, 1085, 'Later months', 42, True, anchor='middle')
 for i in range(4):
-    paper(x + 16 + (i % 2) * 193, 1125 + (i // 2) * 185, 177, 152, both=i != 3)
+    paper(x + 16 + (i % 2) * 193, 1125 + (i // 2) * 185, 177, 152)
     paper(x + 550 + (i % 2) * 203, 1125 + (i // 2) * 185, 191, 152, True, f'Month {i+1}')
 S.arrow(x + 425, 1292, x + 517, 1292, BLUE, 5, 20)
 txt(x + 471, 1250, 'Time', 36, True, BLUE, 'middle')
-txt(x + 205, 1522, 'Often together', 40, True, anchor='middle')
+txt(x + 205, 1522, 'Co-purchase examples', 35, True, anchor='middle')
 txt(x + 755, 1522, 'Still together?', 40, True, BLUE, 'middle')
-txt(x + 16, 1586, 'A and B: products in the same order.', 38, color=GRAY, width=CW - 32)
+S.paragraph(x + 16, 1580, 'For A → B, confidence is the share of orders with A that also contain B.',
+            CW - 32, 38, 48, fill=GRAY)
 
 tag('left_dataset')
 section(x, 1700, '02', 'Dataset & preprocessing')
@@ -274,15 +274,15 @@ txt(x + 16, 2071, '3-run medians; mining only; low-memory Apriori.', 34, color=G
 
 tag('test_grid')
 section(x, 2182, '04', 'Rule retention')
-gx, gy = x + 142, 2380
-gw, gh = (CW - 158) / 3, 235
+gx, gy = x + 180, 2380
+gw, gh = (x + CW - 16 - gx) / 3, 235
 txt(gx + 1.5 * gw, 2258, 'Discovery support', 40, True, anchor='middle')
-txt(x + 16, 2276, 'Disc.', 34, True)
-txt(x + 16, 2325, 'conf.', 34, True)
+S.text(x + 47, gy + 1.5 * gh, 'Discovery confidence', 40, 'bold', INK, 'middle',
+       max_width=3 * gh, vertical=True)
 for j, value in enumerate(['0.5%', '1%', '2%']):
     txt(gx + (j + .5) * gw, 2325, value, 42, True, anchor='middle')
 for i, confidence in enumerate([.3, .5, .7]):
-    txt(x + 75, gy + i * gh + 107, f'{confidence*100:g}%', 40, True, anchor='middle')
+    txt(gx - 20, gy + (i + .5) * gh + 13, f'{confidence*100:g}%', 40, True, anchor='end')
     for j, support in enumerate([.005, .01, .02]):
         row = next(v for v in DATA['grid'] if v['support'] == support and v['confidence'] == confidence)
         xx, yy = gx + j * gw, gy + i * gh

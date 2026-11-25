@@ -11,7 +11,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import toColor
 from reportlab.lib.utils import ImageReader
-import fitz
+import pymupdf
 
 ROOT = Path(__file__).resolve().parent
 UNIT_PT = 72 / 25.4 / 4  # four design units per physical millimetre
@@ -57,13 +57,18 @@ class Scene:
     def circle(self, x, y, r, fill='#2463B5', stroke='none', sw=0):
         self.add(kind='circle', x=x, y=y, r=r, fill=fill, stroke=stroke, sw=sw)
 
-    def text(self, x, y, value, size=34, style='regular', fill='#202020', anchor='start', max_width=None):
+    def text(self, x, y, value, size=34, style='regular', fill='#202020', anchor='start', max_width=None, vertical=False):
         width = measure(value, size, style)
         if max_width is not None and width > max_width + 0.5:
             self.warnings.append(dict(type='text_too_wide', tag=self.tag, value=value, width=round(width, 1), available=max_width))
         xx = x - (width if anchor == 'end' else width / 2 if anchor == 'middle' else 0)
+        bbox = [xx, y - size * 0.83, xx + width, y + size * 0.2]
+        if vertical:
+            # Rotate the horizontal bounds a quarter turn around the text anchor, bottom to top.
+            left, top, right, bottom = bbox
+            bbox = [x + top - y, y - (right - x), x + bottom - y, y - (left - x)]
         self.add(kind='text', x=x, y=y, value=value, size=size, style=style, fill=fill, anchor=anchor,
-                 bbox=[xx, y - size * 0.83, xx + width, y + size * 0.2])
+                 bbox=bbox, vertical=vertical)
 
     def paragraph(self, x, y, value, width, size=34, leading=None, style='regular', fill='#202020'):
         leading = leading or size * 1.33
@@ -97,7 +102,8 @@ class Scene:
             k = item['kind']
             if k == 'text':
                 self.text(x + item['x'] * scale, y + item['y'] * scale, item['value'], item['size'] * scale,
-                          item.get('style', 'regular'), item.get('fill', '#202020'), item.get('anchor', 'start'))
+                          item.get('style', 'regular'), item.get('fill', '#202020'), item.get('anchor', 'start'),
+                          vertical=item.get('vertical', False))
             elif k == 'rect':
                 self.rect(x + item['x'] * scale, y + item['y'] * scale, item['w'] * scale, item['h'] * scale,
                           item.get('fill', 'none'), item.get('stroke', '#202020'), item.get('sw', 2) * scale)
@@ -124,7 +130,8 @@ class Scene:
                     parts.append(f'<polygon points="{pts}" fill="{e["fill"]}"/>')
             elif k == 'text':
                 _, _, family, weight = FONTS[e['style']]
-                parts.append(f'<text x="{e["x"]}" y="{e["y"]}" font-family="{family}" font-size="{e["size"]}" font-weight="{weight}" fill="{e["fill"]}" text-anchor="{e["anchor"]}">{escape(e["value"])}</text>')
+                rotation = f' transform="rotate(-90 {e["x"]} {e["y"]})"' if e['vertical'] else ''
+                parts.append(f'<text x="{e["x"]}" y="{e["y"]}"{rotation} font-family="{family}" font-size="{e["size"]}" font-weight="{weight}" fill="{e["fill"]}" text-anchor="{e["anchor"]}">{escape(e["value"])}</text>')
             else:
                 raw = base64.b64encode(Path(e['path']).read_bytes()).decode('ascii')
                 parts.append(f'<image x="{e["x"]}" y="{e["y"]}" width="{e["w"]}" height="{e["h"]}" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,{raw}"/>')
@@ -132,10 +139,11 @@ class Scene:
         path.write_text(prefix + ''.join(parts) + '</svg>', encoding='utf-8')
 
     def export_pdf(self, path):
-        pdf = PdfCanvas(str(path), pagesize=(self.width * UNIT_PT, self.height * UNIT_PT), pageCompression=1)
+        pdf = PdfCanvas(str(path), pagesize=(self.width * UNIT_PT, self.height * UNIT_PT),
+                        pageCompression=1, initialFontName=FONTS['regular'][0])
         pdf.setTitle('Beyond Frequent Co-Purchases | AIAA 3111 Group 11')
         pdf.setAuthor('Chi Kit WONG; Yuxuan OUYANG; Zhicheng SUN')
-        pdf.setSubject('800 x 1000 mm portrait poster; hybrid image and vector composition')
+        pdf.setSubject('800 x 1000 mm portrait research poster with editable vector figures')
         for e in self.elements:
             k = e['kind']
             if k in ('rect', 'circle'):
@@ -168,12 +176,19 @@ class Scene:
                 pdf.setFillColor(toColor(e['fill']))
                 pdf.setFont(FONTS[e['style']][0], e['size'] * UNIT_PT)
                 x, y = e['x'] * UNIT_PT, (self.height - e['y']) * UNIT_PT
+                if e['vertical']:
+                    pdf.saveState()
+                    pdf.translate(x, y)
+                    pdf.rotate(90)
+                    x, y = 0, 0
                 if e['anchor'] == 'middle':
                     pdf.drawCentredString(x, y, e['value'])
                 elif e['anchor'] == 'end':
                     pdf.drawRightString(x, y, e['value'])
                 else:
                     pdf.drawString(x, y, e['value'])
+                if e['vertical']:
+                    pdf.restoreState()
             else:
                 with Image.open(e['path']) as im:
                     scale = min(e['w'] / im.width, e['h'] / im.height)
@@ -202,19 +217,23 @@ class Scene:
 
 
 def render_and_check(pdf_path, out_dir):
-    doc = fitz.open(pdf_path)
+    doc = pymupdf.open(pdf_path)
     assert len(doc) == 1
     page = doc[0]
     width_mm, height_mm = page.rect.width / 72 * 25.4, page.rect.height / 72 * 25.4
     assert abs(width_mm - 800) < .05 and abs(height_mm - 1000) < .05
     extracted = page.get_text()
-    required = ['AIAA 3111 课程项目海报', 'Group 11', 'Chi Kit WONG', 'Yuxuan OUYANG', 'Zhicheng SUN', '79.2%', '46 / 71']
+    required = ['AIAA 3111 课程项目海报', 'Group 11', 'Chi Kit WONG', 'Yuxuan OUYANG', 'Zhicheng SUN',
+                '79.2%', '46 / 71', 'Co-purchase examples', 'Discovery confidence', 'Discovery support']
     for value in required:
         assert value in extracted, value
     assert 'Limitations' not in extracted and '54.9%' not in extracted
+    assert not page.get_image_info(), 'Expected a fully vector print PDF'
+    fonts = page.get_fonts()
+    assert fonts and all(doc.extract_font(font[0])[3] for font in fonts), 'Print fonts must be embedded'
     for width, name in [(1600, 'poster_preview.png'), (3200, 'poster_detail.png')]:
         zoom = width / page.rect.width
-        page.get_pixmap(matrix=fitz.Matrix(zoom, zoom), alpha=False).save(out_dir / name)
+        page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), alpha=False).save(out_dir / name)
     detail = Image.open(out_dir / 'poster_detail.png')
     for label, box in {
         'header': (0, 0, 3200, 720),
@@ -225,4 +244,5 @@ def render_and_check(pdf_path, out_dir):
     }.items():
         detail.crop(box).save(out_dir / 'qa' / (label + '.png'))
     (out_dir / 'qa/pdf_text.txt').write_text(extracted, encoding='utf-8')
-    return dict(page_count=1, physical_mm=[round(width_mm, 3), round(height_mm, 3)], required_text_present=True)
+    return dict(page_count=1, physical_mm=[round(width_mm, 3), round(height_mm, 3)],
+                required_text_present=True, raster_images=0, embedded_fonts=len(fonts))

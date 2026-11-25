@@ -1,6 +1,6 @@
-# Current poster design and reproduction - V03.1
+# Current poster design and reproduction – V03.2
 
-The selected poster is **800 x 1000 mm, portrait**. It uses the user-approved all-vector V03 layout with local V03.1 corrections. All charts, diagrams, tables and text are generated from code; there are no external image assets. The report and experiment values are unchanged.
+The print poster is **800 x 1000 mm, portrait**. V03.2 builds on the team's three-column design. Python draws the charts, diagrams, tables and text as vectors.
 
 ## Reading order
 
@@ -23,8 +23,9 @@ See [poster/README.md](../poster/README.md) for font requirements and the refere
 
 - White background, black structural lines and blue emphasis; three columns and large readable type.
 - Main body about 27-31 pt; auxiliary labels at least 24 pt; key grid values about 42.5 pt. Source footer is about 20 pt. SVG text and geometry stay editable; PDF embeds the installed font subsets.
-- V03.1 uses a complete black grid plus a separate blue InvoiceNo frame, fixes calendar title/binding collisions, replaces the inline `->` with a proper arrow, branches the frozen-rule connector toward all four months, and gives every month card identical black borders.
-- The builder checks one-page physical size, required identity text, text widths, page boundaries and text overlap. Actual PDF previews should also be inspected after layout changes. Intermediate checks are in ignored `poster/build/qa/`.
+- Four receipts illustrate co-purchases, each showing both A and B. The caption defines confidence as the fraction of orders containing A that also contain B.
+- In the retention grid, the vertical discovery-confidence title runs beside the 30%, 50% and 70% row labels. Discovery support sits above the columns. Each cell reports mean test retention and the original rule count.
+- The builder checks page size, embedded fonts, the absence of raster images, required text, text widths, page boundaries and overlaps. PDF previews and detail crops are in `poster/build/qa/`.
 
 ## Saved evidence
 

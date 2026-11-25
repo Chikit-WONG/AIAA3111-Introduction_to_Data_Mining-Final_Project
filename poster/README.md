@@ -1,4 +1,4 @@
-# Current poster source - V03.1
+# Current poster source – V03.2
 
 The selected poster is **800 x 1000 mm, portrait**. All diagrams, charts, tables and text are drawn from code. There are **no external image assets** to download or preserve. The PDF embeds fonts; the SVG retains editable text and vector geometry.
 
@@ -11,7 +11,7 @@ python -m pip install -r poster/requirements-render.txt
 python scripts/build_poster.py
 ```
 
-Python 3.13.9 on Windows was used for the verified build. Install the separate rendering requirements even if the experiment dependencies are already installed.
+The V03.2 print build was checked on Windows with Python 3.11.7. Install the separate rendering requirements even if the experiment dependencies are already installed.
 
 The fonts are Arial Regular/Bold, Consolas, and Microsoft YaHei Regular/Bold: `arial.ttf`, `arialbd.ttf`, `consola.ttf`, `msyh.ttc`, `msyhbd.ttc`. By default they are read from `C:\Windows\Fonts`. Fonts are not distributed in this repository. On another system, provide the same files in a local directory and set `POSTER_FONT_DIR` to that directory before building. This preserves the intended text metrics.
 
@@ -37,7 +37,7 @@ Intermediate render checks, detail crops and scene JSON go into ignored `poster/
 - `requirements-render.txt`: rendering dependencies.
 - `海报讲解稿_中文_参考.md`: latest user-edited Chinese speaking notes, copied without revising their content. This is a reference draft: its legacy five-minute heading and timing have not been reconciled with the confirmed three-minute presentation limit.
 
-The latest V03.1 corrections give the raw data table a complete black grid plus a separate blue invoice-group frame, separate calendar labels from binding strokes, use a proper inline arrow, connect the frozen rule set to all four months, and give every month card equally dark borders. Font sizes, experimental values and the selected V03 layout are retained.
+The four past-order receipts illustrate baskets containing both A and B. The caption defines confidence over all orders containing A. In the nine-cell test grid, the vertical discovery-confidence label sits beside the three row percentages, and discovery support labels the columns. For printing, use `artifacts/Poster.pdf` at 100% scale. The build verifies the page dimensions, embedded fonts and absence of raster images.
 
 ## Result definitions
 

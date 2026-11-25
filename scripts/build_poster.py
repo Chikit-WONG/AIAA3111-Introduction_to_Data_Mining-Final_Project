@@ -1,4 +1,4 @@
-"""Build and package only the selected V03.1 poster. No API or mining calls."""
+"""Build and package the current print poster from the saved data."""
 from pathlib import Path
 import hashlib
 import json
@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'poster'
 BUILD = SOURCE / 'build'
 ARTIFACTS = ROOT / 'artifacts'
+VERSION = 'V03.2'
 
 
 def main():
@@ -35,13 +36,13 @@ def main():
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
         for p in files:
             z.write(p, p.relative_to(ROOT))
-        z.writestr('README.md', '# Poster source package - V03.1\n\n'
+        z.writestr('README.md', f'# Poster source package - {VERSION}\n\n'
                    'Print size: 800 x 1000 mm portrait. See poster/README.md for fonts and dependencies.\n\n'
                    'Rebuild from this directory:\n\n'
                    '```powershell\npython -m pip install -r poster/requirements-render.txt\n'
                    'python scripts/build_poster.py\n```\n\n'
                    'Only the current version is included. No external image assets or paid API calls are needed.\n')
-        z.writestr('source_manifest.json', json.dumps({'version': 'V03.1', 'files': records,
+        z.writestr('source_manifest.json', json.dumps({'version': VERSION, 'files': records,
                      'external_image_assets': []}, ensure_ascii=False, indent=2))
     with zipfile.ZipFile(archive) as z:
         assert z.testzip() is None
