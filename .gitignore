@@ -8,7 +8,8 @@ data/processed/*
 !data/processed/.gitkeep
 results/work/
 tmp/
-dist/
+/dist/*
+!/dist/Group_11_Project.zip
 tools/bin/
 tools/cache/
 *.egg-info/

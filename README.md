@@ -79,40 +79,26 @@ The detailed experimental definitions and limitations are in [docs/EXPERIMENT_PR
 | [Bilingual presentation script](poster/Presentation_Script_EN_ZH.md) | Three speakers, three minutes of English, two minutes of Q&A, with Chinese rehearsal text |
 | `scripts/` | Optional document build and submission packaging tools |
 
-## Collaborative report in Overleaf
+## Report and submission
 
-The report has its own [GitHub/Overleaf repository](https://github.com/Chikit-WONG/AIAA3111-Introduction_to_Data_Mining-Final_Project-Report), cloned beside this repository with the suffix `-Report`.
+The [report repository](https://github.com/Chikit-WONG/AIAA3111-Introduction_to_Data_Mining-Final_Project-Report) contains the editable English `Report.docx`, its print PDF and the collaborative Overleaf manuscript. The Word file uses the teaching team's v2 template. For changes agreed in Overleaf, update the Word file before exporting the PDF. The experiment's `export-report` stage refreshes the evidence, tables and figures in the report repository. The editable manuscripts are maintained by the team.
 
-```powershell
-.\.venv\Scripts\python.exe run.py export-report
-```
-
-This refreshes the report's `generated/`, `figures/` and `evidence/` files, preserving `main.tex` and `sections/` for collaboration. For another location pass `--report-dir "path"`. The report must be re-read after an experimental change: automated export updates values and figures, not interpretation in prose.
-
-Compile `main.tex` in Overleaf with pdfLaTeX or XeLaTeX. For optional local Windows preview, `scripts/bootstrap_tex.py` downloads a SHA-256-verified portable Tectonic to ignored `tools/bin/`; `scripts/build_report.ps1` compiles to the report's `Report.pdf`. Its initial run downloads TeX packages into ignored `tools/cache/`. No manuscript is sent to a remote compilation service.
-
-## Deliverables and team review
-
-After building the report, run scripts/check_report_layout.py with the project Python environment to verify the 10-page main text and detect large unused areas at page bottoms, including disclosures, references and appendices. It writes the measured page baselines to the report repository's build/layout_check.json. This automated check complements visual page review.
-
-The figure stage also writes vector PDFs for the manuscript, including a method overview and a threshold/observability comparison. The paper_figures module records additional descriptive diagnostics in results/report_diagnostics.json; it asserts that the original confidence gate reproduces every primary retained indicator. No test result triggers new parameter selection. The revised report has 10 main-text pages and 13 pages in total.
-
-The course requires `Report.pdf` (6-10 main-text pages; references, disclosures and appendix excluded), code, README and data/download instructions inside `Group_11_Project.zip`. `Poster.pdf` is submitted separately. `scripts/package_submission.py` assembles this layout after the report and poster are built. Full public data are reproducible using the supplied download command; the ZIP excludes raw data, virtual environments, caches and tool binaries.
-
-After reviewing the manuscript, rebuild the local deliverables in PowerShell:
+From this repository on Windows with Microsoft Word installed, rebuild the final and the Canvas archive with the following commands.
 
 ```powershell
-.\.venv\Scripts\python.exe run.py export-report
-.\.venv\Scripts\python.exe scripts/bootstrap_tex.py
 .\scripts\build_report.ps1
-.\.venv\Scripts\python.exe scripts/build_poster.py
+.\.venv\Scripts\python.exe scripts/check_report_layout.py
 .\.venv\Scripts\python.exe scripts/package_submission.py
 ```
 
-The outputs are `Report.pdf` in the adjacent report repository, `artifacts/Poster.pdf`, and `dist/Group_11_Project.zip` here. After the first successful TeX build, `build_report.ps1 -Offline` uses only cached packages. In an extracted submission ZIP, the manuscript is in `report_source/`; pass `-ReportDirectory .\report_source` to the PowerShell builder and `--report-dir report_source` to the exporter or packager. Both Git repositories are managed separately; edit and synchronize the report repository through the team's normal GitHub/Overleaf workflow.
+The layout check measures the gap below the final main-text line, checks the A4 page size and verifies that Disclosures begins on page 11. The source file, PDF and archive are versioned. The ZIP includes the same PDF at its root, `report_source/Report.docx`, the analysis code, the README, and the public data download instructions and checksum. In an extracted ZIP, pass `-ReportDirectory .\report_source` to the PowerShell builder and `--report-dir report_source` to the layout checker or packager. Exporting in the extracted copy places the PDF next to the Word file.
+
+The separate LaTeX preview is available through `scripts/build_report.ps1 -Overleaf`, after running `python scripts/bootstrap_tex.py` once. That preview goes to `build/main.pdf` in the report repository. With the Tectonic cache populated, add `-Offline` for an offline LaTeX preview.
+
+One member submits [Group_11_Project.zip](dist/Group_11_Project.zip) by **11 December 2026, 23:59 Beijing time**. The main-text limit is 6–10 pages including figures and tables. References, Disclosures and Appendix are excluded. The teaching team does not require a poster in this ZIP.
 
 The V04.0 print poster is **800 x 1000 mm portrait**. Print `artifacts/Poster.pdf` at actual size. Rebuild it on Windows with `python -m pip install -r poster/requirements-render.txt` and `python scripts/build_poster.py`. On other systems, point `POSTER_FONT_DIR` to the same font files. The builder reads the saved results and draws each figure as editable vectors.
 
 The source package includes the build files, editable SVG, print PDF, preview and one bilingual speaking file for the five-minute team slot. The earlier Chinese draft remains in the repository as background. See the [poster build instructions](poster/README.md) and [design notes](docs/POSTER_DESIGN.md).
 
-The course prohibits directly submitting AI-generated work and requires AIGC disclosure. Codex generated the initial code, experiments, analysis and draft materials; the report discloses that assistance. Team members must understand, verify and revise the work before submission. Human contributions and peer-assessment scores are not invented. See [docs/TEAM_REVIEW.md](docs/TEAM_REVIEW.md).
+The course prohibits directly submitting AI-generated work and requires AIGC disclosure. The Word report records assistance from ChatGPT, OpenAI Codex, Antigravity Gemini and Cursor Grok, including the English manuscript's drafting and review. The team has confirmed that there were no external collaborators. Team members remain responsible for reviewing, revising and understanding the work they submit. See [the team review notes](docs/TEAM_REVIEW.md).

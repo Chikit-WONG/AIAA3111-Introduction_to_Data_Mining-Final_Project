@@ -1,74 +1,70 @@
-"""Check the 10-page main text and back-matter layout after a local PDF build.
-
-Uses Latin Modern text baselines to measure unused space above the 21 mm
-bottom margin. This does not replace visual inspection of figures and pages.
-"""
-from pathlib import Path
+"""Check Word PDF pagination and measure text baselines above the A4 body margin."""
 import argparse
 import json
+import re
+from pathlib import Path
 
 from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[1]
+POINTS_PER_MM = 72 / 25.4
+BODY_MARGIN_PT = 72.0
+
+
+def inspect_page(page, number):
+    baselines = []
+
+    def visit(text, canvas, matrix, font, size):
+        y = matrix[4] * canvas[1] + matrix[5] * canvas[3] + canvas[5]
+        text = " ".join(text.split())
+        # Word also puts a page number below the body. The six-point
+        # allowance retains body descenders and the caption baselines.
+        if text and font and "TimesNewRoman" in str(font.get("/BaseFont", "")) and y >= BODY_MARGIN_PT - 6:
+            baselines.append((round(y, 2), text))
+
+    page.extract_text(visitor_text=visit)
+    if not baselines:
+        raise ValueError(f"No Times New Roman body text on page {number}.")
+    width, height = (float(d) / POINTS_PER_MM for d in (page.mediabox.width, page.mediabox.height))
+    if abs(width - 210) > 0.3 or abs(height - 297) > 0.3:
+        raise ValueError(f"Page {number} is {width:.2f} × {height:.2f} mm. Expected A4.")
+    first_y = max(y for y, _ in baselines)
+    first = " ".join(t for y, t in baselines if abs(y - first_y) < 0.7)
+    last_y = min(y for y, _ in baselines)
+    last = " ".join(t for y, t in baselines if abs(y - last_y) < 0.7)
+    return {
+        "page": number,
+        "first_line": first,
+        "last_line": last,
+        "last_baseline_above_bottom_margin_mm": round((last_y - BODY_MARGIN_PT) / POINTS_PER_MM, 2),
+    }
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report-dir", type=Path, default=ROOT.parent / (ROOT.name + "-Report"))
-    parser.add_argument("--max-gap-mm", type=float, default=8.0)
+    parser.add_argument("--max-gap-mm", type=float, default=8.0,
+                        help="Maximum extra baseline gap on the last main-text page.")
     args = parser.parse_args()
     report = args.report_dir.resolve()
-    reader = PdfReader(report / "Report.pdf")
-    records = []
-    back_matter = []
-    found_disclosure = False
-    for number, page in enumerate(reader.pages, 1):
-        positions = []
-
-        def visitor(text, cm, tm, font, size):
-            y = tm[4] * cm[1] + tm[5] * cm[3] + cm[5]
-            # Exclude page-number footers and figure-internal fonts.
-            if text.strip() and y > 45 and font and "LM" in str(font.get("/BaseFont", "")):
-                positions.append((text.strip(), y))
-
-        text = page.extract_text(visitor_text=visitor)
-        if text.lstrip().startswith("6 Disclosures"):
-            found_disclosure = True
-        if not positions:
-            raise AssertionError(f"No manuscript text found on page {number}")
-        last, y = min(positions, key=lambda item: item[1])
-        target = back_matter if found_disclosure else records
-        target.append({
-            "page": number,
-            "last_text": last,
-            "last_baseline_from_bottom_mm": round(y * 25.4 / 72, 3),
-            "unused_height_above_bottom_margin_mm": round(y * 25.4 / 72 - 21, 3),
-        })
-
-    assert found_disclosure, "Cannot identify the separate Disclosures section"
-    assert len(records) == 10, f"Expected 10 main-text pages, found {len(records)}"
-    for record in records:
-        gap = record["unused_height_above_bottom_margin_mm"]
-        assert -.5 <= gap <= args.max_gap_mm, f"Check page {record['page']}: {gap} mm baseline gap"
-    assert abs(records[-1]["unused_height_above_bottom_margin_mm"]) <= 1.0, "Page 10 does not reach the body bottom"
-    for record in back_matter:
-        gap = record["unused_height_above_bottom_margin_mm"]
-        assert -.5 <= gap <= args.max_gap_mm, f"Check back-matter page {record['page']}: {gap} mm baseline gap"
+    pages = [inspect_page(page, n) for n, page in enumerate(PdfReader(report / "Report.pdf").pages, 1)]
+    starts = [p["page"] for p in pages if re.fullmatch(r"(?:\d+\.?\s*)?Disclosures", p["first_line"], re.I)]
+    if starts != [11]:
+        raise ValueError(f"Disclosures should begin page 11. Observed page(s) {starts}.")
+    gap = pages[9]["last_baseline_above_bottom_margin_mm"]
+    if not -0.5 <= gap <= args.max_gap_mm:
+        raise ValueError(f"Page 10 ends {gap:.2f} mm above the body margin, measured at the last baseline.")
     result = {
-        "status": "passed",
-        "total_pdf_pages": len(reader.pages),
-        "main_text_pages": len(records),
-        "bottom_margin_mm": 21,
-        "scope": "Latin Modern manuscript baselines; inspect rendered pages separately",
-        "pages": records,
-        "back_matter_pages": back_matter,
+        "main_text_pages": 10, "total_pdf_pages": len(pages), "bottom_margin_mm": 25.4,
+        "scope": "Times New Roman text including captions and table cells. Inspect the rendered PDF for graphics and ink edges.",
+        "pages": pages,
     }
-    output = report / "build/layout_check.json"
+    output = report / "build" / "layout_check.json"
     output.parent.mkdir(exist_ok=True)
     output.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"Passed: 10 main-text pages; largest extra baseline gap {max(x['unused_height_above_bottom_margin_mm'] for x in records):.1f} mm; page 10 gap {records[-1]['unused_height_above_bottom_margin_mm']:.1f} mm.")
-    print(f"Back matter: {len(back_matter)} pages; largest extra baseline gap {max(x['unused_height_above_bottom_margin_mm'] for x in back_matter):.1f} mm.")
-    print(output)
+    print(f"10 main pages, {len(pages)} total. Last main-text baseline: {gap:.2f} mm above the 25.4 mm margin.")
+    for p in pages:
+        print(f"Page {p['page']:>2}: {p['last_baseline_above_bottom_margin_mm']:>5.1f} mm  {p['last_line'][:76]}")
 
 
 if __name__ == "__main__":

@@ -16,9 +16,9 @@ This checklist distinguishes implemented automated checks from work the human te
 - [ ] Review and revise the LaTeX report in the separate Overleaf repository.
 - [ ] Verify why the 20-rule floor excludes the 14-rule configuration and whether that design suits the intended question.
 - [ ] Discuss missing CustomerID and large-basket sensitivity in the presentation.
-- [ ] Confirm the external-collaborator statement and update AIGC disclosure accurately.
+- [ ] Keep the AIGC disclosure current when further tools are used. The group has confirmed that there are no external collaborators.
 - [ ] Record actual individual work and complete peer assessment honestly.
-- [ ] Confirm the final deadline, poster dimensions and presentation arrangements in Canvas.
+- [ ] Review the final submission before 11 December 2026, 23:59 Beijing time.
 - [ ] Rebuild the PDF and submission ZIP after the final narrative edits.
 
 Course guidance says not to submit directly AI-generated work. The supplied materials are an inspectable starting point for team validation and revision, not a claim that these human checks have been completed.
