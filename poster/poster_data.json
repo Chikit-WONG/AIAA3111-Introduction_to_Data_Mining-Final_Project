@@ -1,0 +1,172 @@
+{
+  "benchmark": [
+    {
+      "support": 0.005,
+      "itemsets": 20906,
+      "apriori": {
+        "seconds": 5.3721614,
+        "peak_mib": 98.2109375
+      },
+      "fpgrowth": {
+        "seconds": 5.319768,
+        "peak_mib": 158.5
+      }
+    },
+    {
+      "support": 0.01,
+      "itemsets": 2218,
+      "apriori": {
+        "seconds": 1.54106,
+        "peak_mib": 92.0625
+      },
+      "fpgrowth": {
+        "seconds": 1.6951908,
+        "peak_mib": 128.421875
+      }
+    },
+    {
+      "support": 0.02,
+      "itemsets": 413,
+      "apriori": {
+        "seconds": 0.322680999998,
+        "peak_mib": 92.15234375
+      },
+      "fpgrowth": {
+        "seconds": 0.501191299998,
+        "peak_mib": 106.6796875
+      }
+    }
+  ],
+  "grid": [
+    {
+      "support": 0.005,
+      "confidence": 0.3,
+      "rules": 27943,
+      "validation": 0.0641305514798,
+      "test": 0.117399706545,
+      "selected": false
+    },
+    {
+      "support": 0.005,
+      "confidence": 0.5,
+      "rules": 15855,
+      "validation": 0.0749921160517,
+      "test": 0.125969725639,
+      "selected": false
+    },
+    {
+      "support": 0.005,
+      "confidence": 0.7,
+      "rules": 5224,
+      "validation": 0.0605857580398,
+      "test": 0.0963342266462,
+      "selected": false
+    },
+    {
+      "support": 0.01,
+      "confidence": 0.3,
+      "rules": 1543,
+      "validation": 0.362281270253,
+      "test": 0.373946856773,
+      "selected": false
+    },
+    {
+      "support": 0.01,
+      "confidence": 0.5,
+      "rules": 816,
+      "validation": 0.554534313725,
+      "test": 0.567401960784,
+      "selected": false
+    },
+    {
+      "support": 0.01,
+      "confidence": 0.7,
+      "rules": 291,
+      "validation": 0.517182130584,
+      "test": 0.415807560137,
+      "selected": false
+    },
+    {
+      "support": 0.02,
+      "confidence": 0.3,
+      "rules": 180,
+      "validation": 0.436111111111,
+      "test": 0.411111111111,
+      "selected": false
+    },
+    {
+      "support": 0.02,
+      "confidence": 0.5,
+      "rules": 71,
+      "validation": 0.781690140845,
+      "test": 0.792253521127,
+      "selected": true
+    },
+    {
+      "support": 0.02,
+      "confidence": 0.7,
+      "rules": 14,
+      "validation": 1.0,
+      "test": 1.0,
+      "selected": false
+    }
+  ],
+  "test_months": [
+    {
+      "month": "2011-08",
+      "passed": 58,
+      "retention": 0.816901408451,
+      "orders": 1195
+    },
+    {
+      "month": "2011-09",
+      "passed": 61,
+      "retention": 0.859154929577,
+      "orders": 1631
+    },
+    {
+      "month": "2011-10",
+      "passed": 56,
+      "retention": 0.788732394366,
+      "orders": 1789
+    },
+    {
+      "month": "2011-11",
+      "passed": 50,
+      "retention": 0.704225352113,
+      "orders": 2481
+    }
+  ],
+  "summary": {
+    "selected_configuration": "s0.02_c0.5",
+    "selected_rules": 71,
+    "test_rule_months": 284,
+    "test_retained_rule_months": 225,
+    "mean_monthly_test_retention": 0.7922535211267606,
+    "rules_retained_all_test_months": 46,
+    "rules_retained_no_test_month": 4,
+    "test_evaluation_coverage": 0.9929577464788732,
+    "benchmark_max_peak_rss_mib": 158.65234375,
+    "experiment_wall_seconds": 70.99496400000498,
+    "completed_utc": "2026-11-06T11:45:28.949325+00:00"
+  },
+  "selection": {
+    "configuration": "s0.02_c0.5",
+    "min_support": 0.02,
+    "min_confidence": 0.5,
+    "rules": 71,
+    "validation_retention": 0.7816901408450704,
+    "selected_utc": "2026-11-06T11:45:25.346168+00:00",
+    "configuration_sha256": "ff1cb77124324199ec36946a45d4b9c67002df5fb043c0df0f057edb885fb9e3",
+    "rule_ids_sha256": "5c4cced6b11dfb76355f511978b8f9e2aefc5697d8c1e4bfa129e0be47ba4faf",
+    "evaluation_thresholds": {
+      "evaluation_min_support": 0.005,
+      "evaluation_min_confidence": 0.5,
+      "evaluation_min_lift": 1.2,
+      "evaluation_min_antecedent_count": 20
+    },
+    "objective": "maximum mean validation retention under common evaluation thresholds; ties prefer more rules, then higher discovery support, then higher discovery confidence"
+  },
+  "display_policy": "Unified monthly support 0.5%; no matched-support supplement.",
+  "population_note": "17,901 UK analysis baskets; 744 partial-December baskets excluded from primary split. Country-specific detail intentionally omitted from the poster body per user preference."
+}

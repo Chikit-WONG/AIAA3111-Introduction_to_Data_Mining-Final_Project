@@ -1,55 +1,33 @@
-# Poster design and reproduction
+# Current poster design and reproduction - V03.1
 
-The current design is a one-page A1 landscape poster (841 × 594 mm), provisionally retained until the course specifies the final dimensions. The PDF is generated from the project's saved experimental evidence. The report and experiment results are unchanged.
+The selected poster is **800 x 1000 mm, portrait**. It uses the user-approved all-vector V03 layout with local V03.1 corrections. All charts, diagrams, tables and text are generated from code; there are no external image assets. The report and experiment values are unchanged.
 
 ## Reading order
 
-1. The title and finding strip establish the question and the primary result: 225 of 284 held-out rule-months pass all gates, 46 of 71 rules persist in all four months, and 99.3% of rule-months are evaluable.
-2. The left column explains chronological discovery, validation and testing, the four common evaluation gates, and the data audit. Its lower section and the conclusion band complete the page instead of leaving an unused lower-left area.
-3. The center column shows four monthly outcomes, one square per frozen rule, and population sensitivity. Percentages use the declared frozen-rule denominator.
-4. The right column distinguishes rule quantity from retention and observability, marks the validation-selected cohort, and compares the two mining implementations. The 14-rule cohort remains visibly outside the declared selection floor.
-5. The conclusion band states the practical interpretation and limitations. Sources, AIGC disclosure and a clickable repository QR code remain visible in the footer.
+1. Header: title, course identifier, Group 11, members and three main results: 79.2% mean monthly retention, 46/71 passing all four test months, identical itemsets for Apriori and FP-Growth.
+2. Left: research question, historical/future-order illustration, raw records, dataset information, preprocessing and invoice-level transaction aggregation.
+3. Middle: discovery -> validation -> frozen-rule monthly testing; shared monthly criteria are stated once. The selected 71 rules remain in every month's denominator.
+4. Right: mining time and peak process memory, the full test-retention grid, integrated interpretation and selected-cohort monthly outcomes.
+5. Footer: data/method sources, AIGC disclosure and code link. There is no separate conclusion/limitations panel.
 
-## Visual system
-
-- Navy establishes the heading hierarchy, teal marks retained rules, pale gray marks failed criteria, and amber marks insufficient evidence or the selected grid cell.
-- Title: 72 pt; section headings: 31 pt; main explanatory text: 22–28 pt; chart annotations: 18–25 pt. Footnotes are 16–17.5 pt at A1 size.
-- All charts, rule markers and the QR code are vector paths. The PDF contains no raster chart images.
-- The two embedded DejaVu Sans font weights come from Matplotlib's bundled fonts, avoiding a dependency on fonts installed on one team member's computer.
-- Layout helpers check text bounds, and the builder verifies key count and algorithm-signature relationships before writing the poster. Re-render and visually inspect after editing prose or layout.
-
-## Reproduce
-
-From the code repository with its dependencies installed:
+## Rebuild
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/build_poster.py
+python -m pip install -r poster/requirements-render.txt
+python scripts/build_poster.py
 ```
 
-This writes `artifacts/Poster.pdf` and a temporary text-bound record in `tmp/poster_qa/poster_layout.json`. No new mining or statistical analysis runs.
+See [poster/README.md](../poster/README.md) for font requirements and the reference speaking notes. This command creates `artifacts/Poster.pdf`, `Poster.svg`, `Poster_preview.png` and `Poster_source.zip`, using saved poster values without re-running mining or calling AI services. The archive contains only this version's source, dependencies, output files and reference notes. Local QA crops and abandoned designs are excluded.
 
-To regenerate the screen preview with Poppler available on PATH:
+## Visual system and checks
 
-```powershell
-pdftoppm -singlefile -scale-to 2400 -png artifacts/Poster.pdf artifacts/Poster_preview
-```
+- White background, black structural lines and blue emphasis; three columns and large readable type.
+- Main body about 27-31 pt; auxiliary labels at least 24 pt; key grid values about 42.5 pt. Source footer is about 20 pt. SVG text and geometry stay editable; PDF embeds the installed font subsets.
+- V03.1 uses a complete black grid plus a separate blue InvoiceNo frame, fixes calendar title/binding collisions, replaces the inline `->` with a proper arrow, branches the frozen-rule connector toward all four months, and gives every month card identical black borders.
+- The builder checks one-page physical size, required identity text, text widths, page boundaries and text overlap. Actual PDF previews should also be inspected after layout changes. Intermediate checks are in ignored `poster/build/qa/`.
 
-The same design can be scaled to A0 with `--size A0 --output artifacts/Poster_A0.pdf`. This is an optional print-size setting; A1 remains the current deliverable. A different board aspect ratio requires a layout review rather than stretching a preview image.
+## Saved evidence
 
-## Evidence map
+`poster/poster_data.json` is the compact snapshot used for drawing: benchmark medians, nine candidate-group sizes/test retention and four monthly selected-cohort outcomes. Original experimental evidence remains under `results/` and the full protocol under [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md). The 14-rule group is below the 20-rule selection floor despite its observed 100% test retention.
 
-| Poster element | Saved evidence |
-|---|---|
-| Main findings | `results/summary.json` |
-| Data size | `results/data_profile.json` |
-| Timeline counts | `results/tables/splits.csv` |
-| Monthly outcomes | `results/tables/monthly_retention.csv` |
-| Persistence squares | `results/tables/stability_distribution.csv` |
-| Population sensitivity | `customer_sensitivity.csv`, `basket_size_sensitivity.csv` under `results/tables/` |
-| Threshold grid and observability | `threshold_sensitivity.csv`, `threshold_evaluability.csv` under `results/tables/` |
-| Selected policy and common gates | `results/selection.json` |
-| Timing and output equivalence | `results/tables/benchmark.csv` |
-
-## Design references
-
-The result-first hierarchy, concise text, readable type and directly labeled figures follow the scientific-poster principles in [APS's poster design advice](https://www.aps.org/careers/advice/designing-poster-presentation). The [NeurIPS 2026 poster instructions](https://neurips.cc/Conferences/2026/PosterInstructions) and [ICML 2026 poster instructions](https://icml.cc/Conferences/2026/PosterInstructions) specify venue-dependent print dimensions and delivery requirements. The course's eventual dimensions govern this submission.
+The uploaded [Chinese reference notes](../poster/海报讲解稿_中文_参考.md) preserve the latest user-edited draft; their legacy heading/timing has not yet been retimed for the confirmed three-minute presentation.

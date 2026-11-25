@@ -21,12 +21,12 @@ def main():
     destination=ROOT/'dist'
     destination.mkdir(exist_ok=True)
     archive=destination/f'Group_{group}_Project.zip'
-    allowed_dirs=['retail_rules','configs','tests','docs','results/tables','results/figures']
+    allowed_dirs=['retail_rules','configs','tests','docs','results/tables','results/figures','poster']
     files=[ROOT/name for name in ['README.md','pyproject.toml','requirements-lock.txt','run.py','data/source_manifest.json']]
     files+=sorted((ROOT/'results').glob('*.json'))
     files+=sorted((ROOT/'scripts').glob('*.py'))+sorted((ROOT/'scripts').glob('*.ps1'))
     for name in allowed_dirs:
-        files += sorted(p for p in (ROOT/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc')
+        files += sorted(p for p in (ROOT/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc' and not (name=='poster' and 'build' in p.relative_to(ROOT/name).parts))
     records=[]
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         z.write(report,'Report.pdf')

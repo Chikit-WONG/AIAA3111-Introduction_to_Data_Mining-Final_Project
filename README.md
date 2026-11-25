@@ -71,8 +71,12 @@ The detailed experimental definitions and limitations are in [docs/EXPERIMENT_PR
 | `results/protocol.json`, `results/selection.json` | Configuration and pre-test selection records |
 | `results/verification.json` | Scope and result of independent numerical checks |
 | `docs/PRESENTATION_NOTES.md` | Chinese explanation, English pitch and defense questions |
-| `artifacts/Poster.pdf` | Vector research poster; provisional A1 landscape layout |
-| `artifacts/Poster_preview.png` | Screen preview of the current poster |
+| `artifacts/Poster.pdf` | Current V03.1 vector poster, 800 x 1000 mm portrait |
+| `artifacts/Poster_preview.png` | Screen preview of the current V03.1 poster |
+| `artifacts/Poster.svg` | Editable vector poster |
+| `artifacts/Poster_source.zip` | Current poster source package and reference speaking notes |
+| `poster/` | Current drawing source, rendering engine, data snapshot and build instructions |
+| `poster/海报讲解稿_中文_参考.md` | Latest user-edited Chinese speaking notes, uploaded as a reference |
 | `scripts/` | Optional document build and submission packaging tools |
 
 ## Collaborative report in Overleaf
@@ -107,8 +111,8 @@ After reviewing the manuscript, rebuild the local deliverables in PowerShell:
 
 The outputs are `Report.pdf` in the adjacent report repository, `artifacts/Poster.pdf`, and `dist/Group_11_Project.zip` here. After the first successful TeX build, `build_report.ps1 -Offline` uses only cached packages. In an extracted submission ZIP, the manuscript is in `report_source/`; pass `-ReportDirectory .\report_source` to the PowerShell builder and `--report-dir report_source` to the exporter or packager. Both Git repositories are managed separately; edit and synchronize the report repository through the team's normal GitHub/Overleaf workflow.
 
-The final deadline and poster dimensions have not been announced in the supplied materials; the user confirmed the presentation is in week 12. The current poster is **A1 landscape provisionally**, not a claim about the required format.
+The current poster is **800 x 1000 mm portrait**, using the user-selected V03.1 layout. Rebuild it on Windows with `python -m pip install -r poster/requirements-render.txt` and `python scripts/build_poster.py`. Other systems can use `POSTER_FONT_DIR` with the same font files; the fonts themselves are not bundled. This rebuild uses saved numbers and local drawing code; no mining rerun or paid model call is needed.
 
-The redesigned poster uses a three-column narrative, a chronological method diagram, directly labeled monthly outcomes, a 71-rule persistence display, population sensitivity and a threshold grid. Every chart and the repository QR code are vector graphics; DejaVu font subsets are embedded for printing. The editable source is `scripts/build_poster.py`, which reads the archived CSV/JSON evidence without rerunning mining. See [poster design and reproduction notes](docs/POSTER_DESIGN.md) for the content map, preview command and sizing options.
+The source package includes only the current poster's compilation files, editable SVG, PDF, preview and the latest user-edited Chinese speaking notes named with **参考**. The current poster has no external image assets. The reference notes are preserved as uploaded; their legacy five-minute heading/timing has not yet been reconciled with the confirmed three-minute presentation limit. See [poster build instructions](poster/README.md) and [current design notes](docs/POSTER_DESIGN.md).
 
 The course prohibits directly submitting AI-generated work and requires AIGC disclosure. Codex generated the initial code, experiments, analysis and draft materials; the report discloses that assistance. Team members must understand, verify and revise the work before submission. Human contributions and peer-assessment scores are not invented. See [docs/TEAM_REVIEW.md](docs/TEAM_REVIEW.md).
