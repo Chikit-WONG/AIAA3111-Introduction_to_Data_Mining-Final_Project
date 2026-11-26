@@ -1,0 +1,12 @@
+{
+  "legend": [
+    "Darker blue means higher mean monthly test retention.",
+    "Gold marks the June–July selection. Gray means <20 rules."
+  ],
+  "takeaway": [
+    "Recheck co-purchase rules monthly",
+    "Excluding baskets with over 100 distinct products",
+    "lowered test retention from {main_retention} to {restricted_retention}."
+  ],
+  "credit": "Codex wrote the analysis code using MLxtend. Claude Code designed the V04.0 layout. Neon revised the poster. Grok and Codex reviewed it."
+}
