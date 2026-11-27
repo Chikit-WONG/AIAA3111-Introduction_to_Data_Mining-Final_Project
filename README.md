@@ -71,11 +71,11 @@ The detailed experimental definitions and limitations are in [docs/EXPERIMENT_PR
 | `results/protocol.json`, `results/selection.json` | Configuration and pre-test selection records |
 | `results/verification.json` | Scope and result of independent numerical checks |
 | `docs/PRESENTATION_NOTES.md` | Chinese explanation, English pitch and defense questions |
-| `artifacts/Poster.pdf` | V04.0 English vector print poster, 800 x 1000 mm portrait |
-| `artifacts/Poster_preview.png` | Screen preview of the V04.0 poster |
-| `artifacts/Poster.svg` | Editable vector poster |
-| `artifacts/Poster_source.zip` | Current poster source package and bilingual talk with Q&A |
-| `poster/` | Current drawing source, rendering engine, data snapshot and build instructions |
+| [Print poster (PDF)](artifacts/V04.3/Poster_V04.3.pdf) | V04.3 English poster, 800 × 1000 mm portrait |
+| [Poster preview (PNG)](artifacts/V04.3/Poster_V04.3_preview.png) | Screen preview of the print version |
+| [Editable poster (SVG)](artifacts/V04.3/Poster_V04.3.svg) | Editable vector artwork |
+| [Poster source package (ZIP)](artifacts/V04.3/Poster_V04.3_source.zip) | Self-contained build files, finished artwork and bilingual talk with Q&A |
+| [Poster build guide](poster/v04_3/README.md) | Fonts, dependencies and reproduction command |
 | [Bilingual presentation script](poster/Presentation_Script_EN_ZH.md) | Three speakers, three minutes of English, two minutes of Q&A, with Chinese rehearsal text |
 | `scripts/` | Optional document build and submission packaging tools |
 
@@ -97,8 +97,8 @@ The separate LaTeX preview is available through `scripts/build_report.ps1 -Overl
 
 One member submits [Group_11_Project.zip](dist/Group_11_Project.zip) by **11 December 2026, 23:59 Beijing time**. The main-text limit is 6–10 pages including figures and tables. References, Disclosures and Appendix are excluded. The teaching team does not require a poster in this ZIP.
 
-The V04.0 print poster is **800 x 1000 mm portrait**. Print `artifacts/Poster.pdf` at actual size. Rebuild it on Windows with `python -m pip install -r poster/requirements-render.txt` and `python scripts/build_poster.py`. On other systems, point `POSTER_FONT_DIR` to the same font files. The builder reads the saved results and draws each figure as editable vectors.
+Print the [V04.3 poster](artifacts/V04.3/Poster_V04.3.pdf) at its actual size of **800 × 1000 mm, portrait**. The blue box beneath the heatmap explains why the headline retention rate needs separate validation where most baskets are small. Rebuild the poster with `python -m pip install -r poster/requirements-render.txt` and `python poster/v04_3/build_poster.py`. On other systems, point `POSTER_FONT_DIR` to the same font files.
 
-The source package includes the build files, editable SVG, print PDF, preview and one bilingual speaking file for the five-minute team slot. The earlier Chinese draft remains in the repository as background. See the [poster build instructions](poster/README.md) and [design notes](docs/POSTER_DESIGN.md).
+The [source package](artifacts/V04.3/Poster_V04.3_source.zip) includes the build files, editable SVG, print PDF, preview and bilingual speaking file for the five-minute team slot. The [V04.3 build guide](poster/v04_3/README.md) documents the release. The [V04.0 design notes](docs/POSTER_DESIGN.md) describe the original layout.
 
 The course prohibits directly submitting AI-generated work and requires AIGC disclosure. The Word report records assistance from ChatGPT, OpenAI Codex, Antigravity Gemini and Cursor Grok, including the English manuscript's drafting and review. The team has confirmed that there were no external collaborators. Team members remain responsible for reviewing, revising and understanding the work they submit. See [the team review notes](docs/TEAM_REVIEW.md).

@@ -1,0 +1,15 @@
+{
+  "legend": [
+    "Darker blue means higher mean monthly test retention.",
+    "Gold marks the June–July selection. Gray means <20 rules."
+  ],
+  "credit": "GPT wrote the analysis code using MLxtend. Claude designed the layout. Gemini revised the text. GPT and Grok reviewed the poster.",
+  "limitation": {
+    "title": "Basket size limits where this rate applies",
+    "body": [
+      "Excluding baskets with over 100 distinct products cut",
+      "test retention for the same {rule_count} rules from {main_retention} to {restricted_retention}.",
+      "We cannot assume {main_retention} where most baskets are small."
+    ]
+  }
+}
